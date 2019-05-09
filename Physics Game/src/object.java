@@ -14,18 +14,28 @@ public class object {
 	int dx; int dy; 
 	// current movement
 	
+	int health;
+	// current health
+	
+	boolean visible;
+	// defines visibility, true = visible, false = not
+	
 	Color c;
 	// color (not part of final)
 	
 	public object(int x, int y, int w, int h) {
 		this.x = x; this.y = y;
 		this.w = w; this.h = h;
+		health = 0;
+		visible = true;
 	}
 	
 	public object(int x, int y, int w, int h, Color c) {
 		this.x = x; this.y = y;
 		this.w = w; this.h = h;
 		this.c = c;
+		health = 0;
+		visible = true;
 	}
 	
 	public void setColor(Color c) {
