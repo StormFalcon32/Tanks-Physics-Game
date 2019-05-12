@@ -17,10 +17,10 @@ public class classic {
 	// map obstacles
 	
 	public classic() {
-		p1 = new tank(100, 400 - 5, Color.BLUE);
+		p1 = new tank(100, 400 - 10, Color.BLUE);
 		p1.angle = 75;
 		p1.velocity = 75;
-		p2 = new tank(490, 400 - 5, Color.RED);
+		p2 = new tank(490, 400 - 10, Color.RED);
 		p2.angle = 105;
 		p2.velocity = 75;
 		// adds tanks and default settings
@@ -90,6 +90,21 @@ public class classic {
 		g.drawString("Destroy the hills for a surprise", 300, 140);
 		// information
 		
+		for (object o : obstacles) {
+			if (o.dispStats) {
+				g.drawString("X: " + o.x + " Y: " + (400 - o.y - o.h), o.x, o.y - 30);
+				g.drawString("W: " + o.w + " H: " + o.h, o.x, o.y - 10);
+			}
+		}
+		if (p1.dispStats) {
+			g.drawString("X: " + p1.x + " Y: " + (400 - p1.y - p1.h), p1.x, p1.y - 30);
+			g.drawString("W: " + p1.w + " H: " + p1.h, p1.x, p1.y - 10);
+		}
+		if (p2.dispStats) {
+			g.drawString("X: " + p2.x + " Y: " + (400 - p2.y - p2.h), p2.x, p2.y - 30);
+			g.drawString("W: " + p2.w + " H: " + p2.h, p2.x, p2.y - 10);
+		}
+		// display coordinates if mouse hovers over anything
 	}
 	
 	public void mouseClick(int x, int y) {
@@ -103,9 +118,22 @@ public class classic {
 	public void mouseMoved(int x, int y) {
 		for (object o : obstacles) {
 			if (o.getHitBox().contains(x, y)) {
-				System.out.println(o.health);
+				o.dispStats = true;
+			} else {
+				o.dispStats = false;
 			}
 		}
+		if (p1.getHitBox().contains(x, y)) {
+			p1.dispStats = true;
+		} else {
+			p1.dispStats = false;
+		}
+		if (p2.getHitBox().contains(x, y)) {
+			p2.dispStats = true;
+		} else {
+			p2.dispStats = false;
+		}
+		// check if mouse is hovering over anything
 	}
 	
 	public void collision() {
