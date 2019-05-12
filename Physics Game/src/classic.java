@@ -5,10 +5,8 @@ import java.util.ArrayList;
 
 public class classic {
 	
-	/* classic mode is the og idea
-	 * in real time, 2 players try to shoot each other
-	 * destroying buildings grant ammo
-	 * a missile silo might be hidden, ready to grant the atomic bomb
+	/*
+	 * classic mode is the og idea in real time, 2 players try to shoot each other destroying buildings grant ammo a missile silo might be hidden, ready to grant the atomic bomb
 	 */
 	
 	tank p1;
@@ -20,9 +18,11 @@ public class classic {
 	
 	public classic() {
 		p1 = new tank(100, 400 - 5, Color.BLUE);
-		p1.angle = 75; p1.velocity = 75;
-		p2 = new tank(490, 400-5, Color.RED);
-		p2.angle = 105; p2.velocity = 75;
+		p1.angle = 75;
+		p1.velocity = 75;
+		p2 = new tank(490, 400 - 5, Color.RED);
+		p2.angle = 105;
+		p2.velocity = 75;
 		// adds tanks and default settings
 		
 		obstacles.add(new silo(180));
@@ -39,7 +39,7 @@ public class classic {
 		p2.move();
 		// moves players
 		
-		for(object o : obstacles) 
+		for (object o : obstacles)
 			o.move();
 		// moves obstacles
 		
@@ -53,7 +53,7 @@ public class classic {
 		p2.draw(g);
 		// draws the players
 		
-		for(object o : obstacles)
+		for (object o : obstacles)
 			o.draw(g);
 		// draws the obstacles
 		
@@ -92,57 +92,61 @@ public class classic {
 	}
 	
 	public void collision() {
-		for(attack a : p1.attacks) {
+		for (attack a : p1.attacks) {
 			Rectangle ar = a.getHitBox();
 			
-			for(object o : obstacles) {
-				if(o.visible && ar.intersects(o.getHitBox())) {
+			for (object o : obstacles) {
+				if (o.visible && ar.intersects(o.getHitBox())) {
 					a.visible = false;
 					o.health -= a.damage;
 					
-					if(o instanceof building) p1.ammo += ((building) o).ammoBonus;
+					if (o instanceof building)
+						p1.ammo += ((building) o).ammoBonus;
 				}
 			}
 			// checks obstacle collision
 			// attacks disappear and deal damage
 			
-			if(p2.visible && ar.intersects(p2.getHitBox())) {
+			if (p2.visible && ar.intersects(p2.getHitBox())) {
 				a.visible = false;
 				p2.health -= a.damage;
 			}
 			// checks player 2 collision
 			// attacks disappear and deal damage
 			
-			if(ar.y > 400) a.visible = false;
+			if (ar.y > 400)
+				a.visible = false;
 			// if it goes out of bounds, it disappears
 		}
 		
-		//---- literally the same thing but for player 2 ----//
+		// ---- literally the same thing but for player 2 ----//
 		
-		for(attack a : p2.attacks) {
+		for (attack a : p2.attacks) {
 			Rectangle ar = a.getHitBox();
 			
-			for(object o : obstacles) {
-				if(o.visible && ar.intersects(o.getHitBox())) {
+			for (object o : obstacles) {
+				if (o.visible && ar.intersects(o.getHitBox())) {
 					a.visible = false;
 					o.health -= a.damage;
 					
-					if(o instanceof building) p2.ammo += ((building) o).ammoBonus;
+					if (o instanceof building)
+						p2.ammo += ((building) o).ammoBonus;
 				}
 			}
 			// checks obstacle collision
 			// attacks disappear and deal damage
 			
-			if(p1.visible && ar.intersects(p1.getHitBox())) {
+			if (p1.visible && ar.intersects(p1.getHitBox())) {
 				a.visible = false;
 				p1.health -= a.damage;
 			}
 			// checks player 1 collision
 			// attacks disappear and deal damage
 			
-			if(ar.y > 400) a.visible = false;
+			if (ar.y > 400)
+				a.visible = false;
 			// if it goes out of bounds, it disappears
 		}
 	}
-
+	
 }

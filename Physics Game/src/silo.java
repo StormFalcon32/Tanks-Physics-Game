@@ -1,9 +1,9 @@
 import java.awt.Color;
 
-public class silo extends object{
+public class silo extends object {
 	
-	/* silos, in gray, give the atomic bomb
-	 * they don't reload
+	/*
+	 * silos, in gray, give the atomic bomb they don't reload
 	 */
 	
 	public silo(int x) {
@@ -12,4 +12,3 @@ public class silo extends object{
 		health = 20;
 	}
 }
-	

@@ -1,9 +1,9 @@
 import java.awt.Color;
 
-public class building extends object{
+public class building extends object {
 	
-	/* buildings, in orange, give ammo once destroyed
-	 * after a little while, they come back
+	/*
+	 * buildings, in orange, give ammo once destroyed after a little while, they come back
 	 */
 	
 	int ammoBonus = 40;
@@ -19,16 +19,15 @@ public class building extends object{
 	}
 	
 	public void move() {
-		if(health <= 0 && visible) {
+		if (health <= 0 && visible) {
 			visible = false;
 			reloadCounter = 100;
 		}
 		// if the building has been destroyed, remove it for a little while
 		
-		if(reloadCounter > 0) {
+		if (reloadCounter > 0) {
 			reloadCounter--;
-		}
-		else {
+		} else {
 			health = 20;
 			visible = true;
 		}
