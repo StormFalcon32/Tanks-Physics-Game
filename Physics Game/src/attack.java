@@ -1,14 +1,21 @@
 import java.awt.Color;
 
-public class attack extends object{
+public class attack extends object {
 	
-	int sx; int sy;
+	int sx;
+	int sy;
 	// starting positions
 	
-	int vx; int vy;
+	int vx;
+	int vy;
 	// components of velocity in degrees
 	
-	int ax = 0; int ay = 10;
+	double vxCurr;
+	double vyCurr;
+	// current velocity
+	
+	int ax = 0;
+	int ay = 10;
 	// directional acceleration, default ay 10
 	
 	int damage = 20;
@@ -26,6 +33,8 @@ public class attack extends object{
 		sy = y;
 		vx = (int) (v * Math.cos(Math.toRadians(-a)));
 		vy = (int) (v * Math.sin(Math.toRadians(-a)));
+		vxCurr = vx;
+		vyCurr = vy;
 		damage = d;
 		// instantiates some variables
 	}
@@ -35,11 +44,12 @@ public class attack extends object{
 		count++;
 		time = (double) (count) / 20;
 		// each increment is 1/20th of a second
-			
+		vxCurr += ax * time;
+		vyCurr += ay * time;
 		x = (int) (sx + vx * time + (ax / 2 * time * time));
 		y = (int) (sy + vy * time + (ay / 2 * time * time));
 		// updates current position according to projectile motion
 		
 	}
-
+	
 }
