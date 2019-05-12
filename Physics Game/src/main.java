@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -48,6 +48,7 @@ public class main extends JPanel implements ActionListener {
 		
 		addKeyListener(new KAdapter());
 		addMouseListener(new MAdapter());
+		addMouseMotionListener(new MMotionAdapter());
 		// adds key input
 		setFocusable(true);
 		setBackground(Color.WHITE);
@@ -132,8 +133,6 @@ public class main extends JPanel implements ActionListener {
 				if (key == KeyEvent.VK_DOWN)
 					c.p2.down = true;
 				
-				System.out.println(c.p2.left + " " + c.p2.right);
-				
 				if (c.p2.up && !c.p2.down)
 					c.p2.velocity++;
 				if (c.p2.down && !c.p2.up)
@@ -178,34 +177,34 @@ public class main extends JPanel implements ActionListener {
 					c.p2.up = false;
 				if (key == KeyEvent.VK_DOWN)
 					c.p2.down = false;
-				System.out.println(c.p2.left + " " + c.p2.right);
 			}
 			
 		}
 	}
 	
 	private class MAdapter extends MouseAdapter {
-		public void mousePressed(MouseEvent e) {
-			
-			int mx = e.getX();
-			int my = e.getY();
-			// mouse coordinates
-			
-			Rectangle mr = new Rectangle(mx, my, 1, 1);
-			// mouse hitbox
-			
-		}
 		
 		public void mouseReleased(MouseEvent e) {
 			
 			int mx = e.getX();
 			int my = e.getY();
 			// mouse coordinates
-			
-			Rectangle mr = new Rectangle(mx, my, 1, 1);
-			// mouse hitbox
-			
+			if (state.equals("classic")) {
+				c.mouseClick(mx, my);
+			}
 		}
 	}
 	
+	private class MMotionAdapter extends MouseMotionAdapter {
+		
+		public void mouseMoved(MouseEvent e) {
+			
+			int mx = e.getX();
+			int my = e.getY();
+			// mouse coordinates
+			if (state.equals("classic")) {
+				c.mouseMoved(mx, my);
+			}
+		}
+	}
 }

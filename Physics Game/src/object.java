@@ -22,6 +22,9 @@ public class object {
 	boolean visible;
 	// defines visibility, true = visible, false = not
 	
+	boolean dispStats;
+	// display stats when mouse hovers
+	
 	Color c;
 	// color (not part of final)
 	
