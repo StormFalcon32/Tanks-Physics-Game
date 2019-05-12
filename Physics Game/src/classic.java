@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class classic {
 	
 	/*
-	 * classic mode is the og idea in real time, 2 players try to shoot each other destroying buildings grant ammo a missile silo might be hidden, ready to grant the atomic bomb
+	 * normal mode
 	 */
 	
 	tank p1;
@@ -53,8 +53,9 @@ public class classic {
 		p2.draw(g);
 		// draws the players
 		
-		for (object o : obstacles)
+		for (object o : obstacles) {
 			o.draw(g);
+		}
 		// draws the obstacles
 		
 		g.setColor(new Color(255, 235, 205));
@@ -89,6 +90,22 @@ public class classic {
 		g.drawString("Destroy the hills for a surprise", 300, 140);
 		// information
 		
+	}
+	
+	public void mouseClick(int x, int y) {
+		for (object o : obstacles) {
+			if (o.getHitBox().contains(x, y)) {
+				System.out.println(o.health);
+			}
+		}
+	}
+	
+	public void mouseMoved(int x, int y) {
+		for (object o : obstacles) {
+			if (o.getHitBox().contains(x, y)) {
+				System.out.println(o.health);
+			}
+		}
 	}
 	
 	public void collision() {

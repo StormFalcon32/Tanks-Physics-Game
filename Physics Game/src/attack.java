@@ -46,6 +46,7 @@ public class attack extends object {
 		// each increment is 1/20th of a second
 		vxCurr += ax * time;
 		vyCurr += ay * time;
+		// updates current velocity
 		x = (int) (sx + vx * time + (ax / 2 * time * time));
 		y = (int) (sy + vy * time + (ay / 2 * time * time));
 		// updates current position according to projectile motion
