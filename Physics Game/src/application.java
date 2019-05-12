@@ -8,6 +8,7 @@ public class application extends JFrame {
 	
 	public application() {
 		initUI();
+		// Gay test
 	}
 	
 	private void initUI() {
