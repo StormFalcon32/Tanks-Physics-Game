@@ -32,7 +32,7 @@ public class tank extends object {
 	// trajectory coordinates
 	
 	public tank(int x, int y, Color c) {
-		super(x, y, 10, 5, c);
+		super(x, y, 10, 10, c);
 		health = 100;
 	}
 	
