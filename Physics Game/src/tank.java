@@ -22,8 +22,8 @@ public class tank extends object {
 	boolean right;
 	// controls
 	
-	int frame = 0;
-	// don't poll controls every frame
+	long lastTime = System.currentTimeMillis();
+	// poll controls 50 times every second
 	
 	ArrayList<attack> attacks = new ArrayList<attack>();
 	
@@ -31,9 +31,13 @@ public class tank extends object {
 	int[] yPoints = new int[20];
 	// trajectory coordinates
 	
+	int bx;
+	// x offset by 5 (use for bullet calculations)
+	
 	public tank(int x, int y, Color c) {
 		super(x, y, 10, 10, c);
 		health = 100;
+		bx = x + 5;
 	}
 	
 	public void move() {
@@ -48,8 +52,8 @@ public class tank extends object {
 			}
 		}
 		// removes all invisible attacks
-		
-		if (frame % 2 == 0) {
+		long time = System.currentTimeMillis() - lastTime;
+		if (time >= 25) {
 			if (up && !down)
 				velocity++;
 			if (down && !up)
@@ -58,9 +62,7 @@ public class tank extends object {
 				angle++;
 			if (right && !left)
 				angle--;
-			frame = 1;
-		} else {
-			frame = 0;
+			lastTime += time;
 		}
 		// adjusts
 		if (health <= 0)
@@ -70,29 +72,23 @@ public class tank extends object {
 	}
 	
 	public void draw(Graphics g) {
-		if (!visible)
-			return;
-		// if invisible, don't draw
 		
-		x -= 5;
 		super.draw(g);
-		x += 5;
-		// offsets the tank so it shoots from the middle
 		
-		for (attack a : attacks)
-			a.draw(g);
-		// draws all attacks
+		// classic draws attacks and deals with visibility
 		
 		g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	
 	public void shoot() {
+		bx = x + 5;
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
 		
-		attack a = new attack(x, y, angle, velocity, 20, c);
+		attack a = new attack(bx, y, angle, velocity, 20, c);
+		// offset shot so it starts in the middle of the tank
 		attacks.add(a);
 		ammo -= 10;
 		// adds an attack, lowers ammo
@@ -100,11 +96,12 @@ public class tank extends object {
 	
 	public void genTrajectory() {
 		
+		bx = x + 5;
 		int vx = (int) (velocity * Math.cos(Math.toRadians(-angle)));
 		int vy = (int) (velocity * Math.sin(Math.toRadians(-angle)));
 		
 		for (int z = 0; z != 20; z++) {
-			int coordX = x + vx * z;
+			int coordX = bx + vx * z;
 			int coordY = y + vy * z + (10 * z * z / 2);
 			xPoints[z] = coordX;
 			yPoints[z] = coordY;

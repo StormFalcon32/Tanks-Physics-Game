@@ -25,8 +25,10 @@ public class classic {
 		p2.velocity = 75;
 		// adds tanks and default settings
 		
-		obstacles.add(new silo(180));
-		obstacles.add(new hill(150));
+		silo silo = new silo(180, new hill(150));
+		obstacles.add(silo);
+		obstacles.add(silo.hill);
+		// add silo and hill
 		obstacles.add(new hill(200));
 		obstacles.add(new mountain(280));
 		obstacles.add(new building(380));
@@ -49,12 +51,36 @@ public class classic {
 	
 	public void draw(Graphics g) {
 		
-		p1.draw(g);
-		p2.draw(g);
-		// draws the players
-		
-		for (object o : obstacles) {
-			o.draw(g);
+		if (p1.visible) {
+			p1.draw(g);
+		}
+		if (p2.visible) {
+			p2.draw(g);
+		}
+		for (attack a : p1.attacks) {
+			a.draw(g);
+		}
+		for (attack a : p2.attacks) {
+			a.draw(g);
+		}
+		// draws the players and their attacks
+		// if attack was shot before player died, don't remove it yet
+		System.out.println(obstacles.size());
+		for (int i = 0; i < obstacles.size(); i++) {
+			object o = obstacles.get(i);
+			if (!o.visible) {
+				obstacles.remove(o);
+				i--;
+			} else {
+				if (o instanceof silo) {
+					silo s = (silo) o;
+					if (!s.hill.visible) {
+						o.draw(g);
+					}
+				} else {
+					o.draw(g);
+				}
+			}
 		}
 		// draws the obstacles
 		
@@ -92,15 +118,23 @@ public class classic {
 		
 		for (object o : obstacles) {
 			if (o.dispStats) {
-				g.drawString("X: " + o.x + " Y: " + (400 - o.y - o.h), o.x, o.y - 30);
-				g.drawString("W: " + o.w + " H: " + o.h, o.x, o.y - 10);
+				if (o instanceof silo) {
+					silo s = (silo) o;
+					if (!s.hill.visible) {
+						g.drawString("X: " + o.x + " Y: " + (400 - o.y - o.h), o.x, o.y - 30);
+						g.drawString("W: " + o.w + " H: " + o.h, o.x, o.y - 10);
+					}
+				} else {
+					g.drawString("X: " + o.x + " Y: " + (400 - o.y - o.h), o.x, o.y - 30);
+					g.drawString("W: " + o.w + " H: " + o.h, o.x, o.y - 10);
+				}
 			}
 		}
-		if (p1.dispStats) {
+		if (p1.dispStats && p1.visible) {
 			g.drawString("X: " + p1.x + " Y: " + (400 - p1.y - p1.h), p1.x, p1.y - 30);
 			g.drawString("W: " + p1.w + " H: " + p1.h, p1.x, p1.y - 10);
 		}
-		if (p2.dispStats) {
+		if (p2.dispStats && p2.visible) {
 			g.drawString("X: " + p2.x + " Y: " + (400 - p2.y - p2.h), p2.x, p2.y - 30);
 			g.drawString("W: " + p2.w + " H: " + p2.h, p2.x, p2.y - 10);
 		}
@@ -145,7 +179,7 @@ public class classic {
 					a.visible = false;
 					o.health -= a.damage;
 					
-					if (o instanceof building)
+					if (o instanceof building && p1.health != 0)
 						p1.ammo += ((building) o).ammoBonus;
 				}
 			}
@@ -155,6 +189,9 @@ public class classic {
 			if (p2.visible && ar.intersects(p2.getHitBox())) {
 				a.visible = false;
 				p2.health -= a.damage;
+				if (p2.health == 0) {
+					p2.ammo = 0;
+				}
 			}
 			// checks player 2 collision
 			// attacks disappear and deal damage
@@ -174,7 +211,7 @@ public class classic {
 					a.visible = false;
 					o.health -= a.damage;
 					
-					if (o instanceof building)
+					if (o instanceof building && p2.health != 0)
 						p2.ammo += ((building) o).ammoBonus;
 				}
 			}
@@ -184,6 +221,9 @@ public class classic {
 			if (p1.visible && ar.intersects(p1.getHitBox())) {
 				a.visible = false;
 				p1.health -= a.damage;
+				if (p1.health == 0) {
+					p1.ammo = 0;
+				}
 			}
 			// checks player 1 collision
 			// attacks disappear and deal damage
