@@ -1,17 +1,19 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 public class object {
 	
-	int x; int y; 
+	int x;
+	int y;
 	// location
 	
-	int w; int h; 
+	int w;
+	int h;
 	// dimensions
 	
-	int dx; int dy; 
+	double dx;
+	double dy;
 	// current movement
 	
 	int health;
@@ -24,15 +26,19 @@ public class object {
 	// color (not part of final)
 	
 	public object(int x, int y, int w, int h) {
-		this.x = x; this.y = y;
-		this.w = w; this.h = h;
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
 		health = 0;
 		visible = true;
 	}
 	
 	public object(int x, int y, int w, int h, Color c) {
-		this.x = x; this.y = y;
-		this.w = w; this.h = h;
+		this.x = x;
+		this.y = y;
+		this.w = w;
+		this.h = h;
 		this.c = c;
 		health = 0;
 		visible = true;
@@ -43,15 +49,21 @@ public class object {
 	}
 	
 	public void draw(Graphics g) {
-		if(!visible) return;
+		if (!visible)
+			return;
 		g.setColor(c);
 		g.fillRect(x, y, w, h);
 	}
 	
 	public void move() {
-		if(health <= 0) 
+		if (health <= 0 && !(this instanceof attack)) {
 			visible = false;
+		} else {
+			x = (int) (x + dx);
+			y = (int) (y + dy);
+		}
 		// if no health, invisible
+		
 	}
 	
 	public Rectangle getHitBox() {
@@ -59,6 +71,6 @@ public class object {
 	}
 	
 	public Rectangle getFutureHitBox() {
-		return new Rectangle(x + dx, y + dy, w, h);
+		return new Rectangle(x + (int) (dx), y + (int) (dy), w, h);
 	}
 }
