@@ -119,13 +119,13 @@ public class main extends JPanel implements ActionListener {
 			int key = e.getKeyCode();
 			
 			if(state.equals("classic")) {
-				if(key == e.VK_A) c.p1.angle--;
-				if(key == e.VK_D) c.p1.angle++;
+				if(key == e.VK_A) c.p1.angle++;
+				if(key == e.VK_D) c.p1.angle--;
 				if(key == e.VK_W) c.p1.velocity++;
 				if(key == e.VK_S) c.p1.velocity--;
 				
-				if(key == e.VK_LEFT) c.p2.angle--;
-				if(key == e.VK_RIGHT) c.p2.angle++;
+				if(key == e.VK_LEFT) c.p2.angle++;
+				if(key == e.VK_RIGHT) c.p2.angle--;
 				if(key == e.VK_UP) c.p2.velocity++;
 				if(key == e.VK_DOWN) c.p2.velocity--;
 			}
@@ -139,7 +139,12 @@ public class main extends JPanel implements ActionListener {
 				if(key == e.VK_SPACE) state = "classic";
 			}
 			else if(state.equals("classic")) {
-				if(key == e.VK_R) state = "title";
+				if(key == e.VK_E) c.p1.shoot();
+				if(key == e.VK_SPACE) c.p2.shoot();
+				if(key == e.VK_R) {
+					state = "title";
+					c = new classic();
+				}
 			}
 			
 		}

@@ -1,10 +1,14 @@
 import java.awt.Color;
 
 public class hill extends object{
+	
+	/* hills, in green, are mere obstacles
+	 * however, they can be destroyed
+	 */
 
-	public hill(int x, int y, int w, int h) {
-		super(x, y, w, h);
+	public hill(int x) {
+		super(x, 350, 50, 50);
 		c = Color.GREEN;
-		health = 10000;
+		health = 50;
 	}
 }

@@ -1,10 +1,13 @@
 import java.awt.Color;
 
 public class mountain extends object{
+	
+	/* mountains, in light gray, are the tallest obstacles
+	 */
 
-	public mountain(int x, int y, int w, int h) {
-		super(x, y, w, h);
+	public mountain(int x) {
+		super(x, 250, 50, 150);
 		c = Color.LIGHT_GRAY;
-		health = 10000;
+		health = 1000000;
 	}
 }

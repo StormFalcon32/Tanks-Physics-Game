@@ -43,13 +43,15 @@ public class object {
 	}
 	
 	public void draw(Graphics g) {
+		if(!visible) return;
 		g.setColor(c);
 		g.fillRect(x, y, w, h);
 	}
 	
 	public void move() {
-		x += dx; y += dy;
-		// moves according to the current movement
+		if(health <= 0) 
+			visible = false;
+		// if no health, invisible
 	}
 	
 	public Rectangle getHitBox() {

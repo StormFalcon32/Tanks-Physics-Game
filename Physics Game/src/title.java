@@ -12,8 +12,8 @@ public class title {
 	}
 	
 	public void draw(Graphics g) {
-		g.drawString("This is the title screen", 100, 100);
-		g.drawString("Use space bar to go to classic mode", 100, 130);
+		g.drawString("Physics Game [Demo]", 200, 300);
+		g.drawString("Use space bar to go to Classic Mode", 200, 330);
 	}
 
 }
