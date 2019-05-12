@@ -52,8 +52,6 @@ public class object {
 	}
 	
 	public void draw(Graphics g) {
-		if (!visible)
-			return;
 		g.setColor(c);
 		g.fillRect(x, y, w, h);
 	}
