@@ -19,8 +19,8 @@ public class building extends object {
 	}
 	
 	public void move() {
-		if (health <= 0 && visible) {
-			visible = false;
+		if (health <= 0 && visible()) {
+			invisible();
 			reloadCounter = 100;
 		}
 		// if the building has been destroyed, remove it for a little while
@@ -29,7 +29,7 @@ public class building extends object {
 			reloadCounter--;
 		} else {
 			health = 20;
-			visible = true;
+			setVisible();
 		}
 		// reload the building once its ready
 	}

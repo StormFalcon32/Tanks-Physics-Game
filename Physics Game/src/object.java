@@ -19,7 +19,7 @@ public class object {
 	int health;
 	// current health
 	
-	boolean visible;
+	private boolean visible;
 	// defines visibility, true = visible, false = not
 	
 	boolean dispStats;
@@ -52,18 +52,34 @@ public class object {
 	}
 	
 	public void draw(Graphics g) {
+		if (!visible) {
+			return;
+		}
 		g.setColor(c);
 		g.fillRect(x, y, w, h);
 	}
 	
 	public void move() {
 		if (health <= 0 && !(this instanceof attack)) {
-			visible = false;
+			invisible();
 			// if no health, invisible
 		} else {
 			x = (int) (x + dx);
 			y = (int) (y + dy);
 		}
+	}
+	
+	public void invisible() {
+		visible = false;
+		dispStats = false;
+	}
+	
+	public void setVisible() {
+		visible = true;
+	}
+	
+	public boolean visible() {
+		return visible;
 	}
 	
 	public Rectangle getHitBox() {

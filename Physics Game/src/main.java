@@ -133,14 +133,6 @@ public class main extends JPanel implements ActionListener {
 				if (key == KeyEvent.VK_DOWN)
 					c.p2.down = true;
 				
-				if (c.p2.up && !c.p2.down)
-					c.p2.velocity++;
-				if (c.p2.down && !c.p2.up)
-					c.p2.velocity--;
-				if (c.p2.left && !c.p2.right)
-					c.p2.angle++;
-				if (c.p2.right && !c.p2.left)
-					c.p2.angle--;
 			}
 			
 		}

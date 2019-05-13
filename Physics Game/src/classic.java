@@ -16,6 +16,10 @@ public class classic {
 	ArrayList<object> obstacles = new ArrayList<object>();
 	// map obstacles
 	
+	int mx = 0;
+	int my = 0;
+	// previous mouse position
+	
 	public classic() {
 		p1 = new tank(100, 400 - 10, Color.BLUE);
 		p1.angle = 75;
@@ -51,36 +55,21 @@ public class classic {
 	
 	public void draw(Graphics g) {
 		
-		if (p1.visible) {
-			p1.draw(g);
-		}
-		if (p2.visible) {
-			p2.draw(g);
-		}
-		for (attack a : p1.attacks) {
-			a.draw(g);
-		}
-		for (attack a : p2.attacks) {
-			a.draw(g);
-		}
+		
+		p1.draw(g);
+		p2.draw(g);
 		// draws the players and their attacks
 		// if attack was shot before player died, don't remove it yet
-		System.out.println(obstacles.size());
 		for (int i = 0; i < obstacles.size(); i++) {
 			object o = obstacles.get(i);
-			if (!o.visible) {
-				obstacles.remove(o);
-				i--;
-			} else {
-				if (o instanceof silo) {
+				if (o instanceof silo && o.visible()) {
 					silo s = (silo) o;
-					if (!s.hill.visible) {
+					if (!s.hill.visible()) {
 						o.draw(g);
 					}
 				} else {
 					o.draw(g);
 				}
-			}
 		}
 		// draws the obstacles
 		
@@ -116,11 +105,33 @@ public class classic {
 		g.drawString("Destroy the hills for a surprise", 300, 140);
 		// information
 		
+		drawStats(g);
+	}
+	
+	public void drawStats(Graphics g) {
+		for (object o : obstacles) {
+			if (o.getHitBox().contains(mx, my) && o.visible()) {
+				o.dispStats = true;
+			} else {
+				o.dispStats = false;
+			}
+		}
+		if (p1.getHitBox().contains(mx, my) && p1.visible()) {
+			p1.dispStats = true;
+		} else {
+			p1.dispStats = false;
+		}
+		if (p2.getHitBox().contains(mx, my) && p2.visible()) {
+			p2.dispStats = true;
+		} else {
+			p2.dispStats = false;
+		}
+		// check if mouse is hovering over anything
 		for (object o : obstacles) {
 			if (o.dispStats) {
 				if (o instanceof silo) {
 					silo s = (silo) o;
-					if (!s.hill.visible) {
+					if (!s.hill.visible()) {
 						g.drawString("X: " + o.x + " Y: " + (400 - o.y - o.h), o.x, o.y - 30);
 						g.drawString("W: " + o.w + " H: " + o.h, o.x, o.y - 10);
 					}
@@ -130,11 +141,11 @@ public class classic {
 				}
 			}
 		}
-		if (p1.dispStats && p1.visible) {
+		if (p1.dispStats && p1.visible()) {
 			g.drawString("X: " + p1.x + " Y: " + (400 - p1.y - p1.h), p1.x, p1.y - 30);
 			g.drawString("W: " + p1.w + " H: " + p1.h, p1.x, p1.y - 10);
 		}
-		if (p2.dispStats && p2.visible) {
+		if (p2.dispStats && p2.visible()) {
 			g.drawString("X: " + p2.x + " Y: " + (400 - p2.y - p2.h), p2.x, p2.y - 30);
 			g.drawString("W: " + p2.w + " H: " + p2.h, p2.x, p2.y - 10);
 		}
@@ -150,24 +161,8 @@ public class classic {
 	}
 	
 	public void mouseMoved(int x, int y) {
-		for (object o : obstacles) {
-			if (o.getHitBox().contains(x, y)) {
-				o.dispStats = true;
-			} else {
-				o.dispStats = false;
-			}
-		}
-		if (p1.getHitBox().contains(x, y)) {
-			p1.dispStats = true;
-		} else {
-			p1.dispStats = false;
-		}
-		if (p2.getHitBox().contains(x, y)) {
-			p2.dispStats = true;
-		} else {
-			p2.dispStats = false;
-		}
-		// check if mouse is hovering over anything
+		mx = x;
+		my = y;
 	}
 	
 	public void collision() {
@@ -175,8 +170,8 @@ public class classic {
 			Rectangle ar = a.getHitBox();
 			
 			for (object o : obstacles) {
-				if (o.visible && ar.intersects(o.getHitBox())) {
-					a.visible = false;
+				if (o.visible() && ar.intersects(o.getHitBox())) {
+					a.invisible();
 					o.health -= a.damage;
 					
 					if (o instanceof building && p1.health != 0)
@@ -186,8 +181,8 @@ public class classic {
 			// checks obstacle collision
 			// attacks disappear and deal damage
 			
-			if (p2.visible && ar.intersects(p2.getHitBox())) {
-				a.visible = false;
+			if (p2.visible() && ar.intersects(p2.getHitBox())) {
+				a.invisible();
 				p2.health -= a.damage;
 				if (p2.health == 0) {
 					p2.ammo = 0;
@@ -197,7 +192,7 @@ public class classic {
 			// attacks disappear and deal damage
 			
 			if (ar.y > 400)
-				a.visible = false;
+				a.invisible();
 			// if it goes out of bounds, it disappears
 		}
 		
@@ -207,8 +202,8 @@ public class classic {
 			Rectangle ar = a.getHitBox();
 			
 			for (object o : obstacles) {
-				if (o.visible && ar.intersects(o.getHitBox())) {
-					a.visible = false;
+				if (o.visible() && ar.intersects(o.getHitBox())) {
+					a.invisible();
 					o.health -= a.damage;
 					
 					if (o instanceof building && p2.health != 0)
@@ -218,8 +213,8 @@ public class classic {
 			// checks obstacle collision
 			// attacks disappear and deal damage
 			
-			if (p1.visible && ar.intersects(p1.getHitBox())) {
-				a.visible = false;
+			if (p1.visible() && ar.intersects(p1.getHitBox())) {
+				a.invisible();
 				p1.health -= a.damage;
 				if (p1.health == 0) {
 					p1.ammo = 0;
@@ -229,7 +224,7 @@ public class classic {
 			// attacks disappear and deal damage
 			
 			if (ar.y > 400)
-				a.visible = false;
+				a.invisible();
 			// if it goes out of bounds, it disappears
 		}
 	}
