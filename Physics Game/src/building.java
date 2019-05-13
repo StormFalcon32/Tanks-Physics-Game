@@ -9,7 +9,7 @@ public class building extends object {
 	int ammoBonus = 40;
 	// default ammo
 	
-	int reloadCounter = 0;
+	long reloadTime = 0;
 	// for reloading after destruction
 	
 	public building(int x) {
@@ -21,13 +21,11 @@ public class building extends object {
 	public void move() {
 		if (health <= 0 && visible) {
 			visible = false;
-			reloadCounter = 100;
+			reloadTime = System.currentTimeMillis();
 		}
 		// if the building has been destroyed, remove it for a little while
 		
-		if (reloadCounter > 0) {
-			reloadCounter--;
-		} else {
+		if (System.currentTimeMillis() - reloadTime >= 5000) {
 			health = 20;
 			visible = true;
 		}
