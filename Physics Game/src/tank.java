@@ -46,7 +46,7 @@ public class tank extends object {
 		// moves all attacks
 		
 		for (int x = 0; x != attacks.size(); x++) {
-			if (!attacks.get(x).visible()) {
+			if (!attacks.get(x).visible) {
 				attacks.remove(x);
 				x--;
 			}
@@ -66,7 +66,7 @@ public class tank extends object {
 		}
 		// adjusts
 		if (health <= 0)
-			invisible();
+			visible = false;
 		// if no health, invisible
 		genTrajectory();
 	}
@@ -77,7 +77,7 @@ public class tank extends object {
 			a.draw(g);
 		}
 		// classic draws attacks and deals with visibility
-		if (!visible()) {
+		if (!visible) {
 			return;
 		}
 		super.draw(g);

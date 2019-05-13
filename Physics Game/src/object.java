@@ -19,11 +19,8 @@ public class object {
 	int health;
 	// current health
 	
-	private boolean visible;
+	boolean visible;
 	// defines visibility, true = visible, false = not
-	
-	boolean dispStats;
-	// display stats when mouse hovers
 	
 	Color c;
 	// color (not part of final)
@@ -61,25 +58,12 @@ public class object {
 	
 	public void move() {
 		if (health <= 0 && !(this instanceof attack)) {
-			invisible();
+			visible = false;
 			// if no health, invisible
 		} else {
 			x = (int) (x + dx);
 			y = (int) (y + dy);
 		}
-	}
-	
-	public void invisible() {
-		visible = false;
-		dispStats = false;
-	}
-	
-	public void setVisible() {
-		visible = true;
-	}
-	
-	public boolean visible() {
-		return visible;
 	}
 	
 	public Rectangle getHitBox() {
