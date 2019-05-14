@@ -182,7 +182,7 @@ public class main extends JPanel implements ActionListener {
 			int my = e.getY();
 			// mouse coordinates
 			if (state.equals("classic")) {
-				c.mouseClick(mx, my);
+				
 			}
 		}
 	}

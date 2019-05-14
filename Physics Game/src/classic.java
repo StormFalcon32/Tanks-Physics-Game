@@ -13,30 +13,27 @@ public class classic {
 	tank p2;
 	// player tanks
 	
-	ArrayList<object> obstacles = new ArrayList<object>();
+	ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 	// map obstacles
+	
+	//---- TEST ----//
+	obstacle o;
 	
 	int mx = 0;
 	int my = 0;
 	// previous mouse position
 	
 	public classic() {
-		p1 = new tank(100, 400 - 10, Color.BLUE);
+		p1 = new tank(50, 400 - 10, Color.BLUE);
 		p1.angle = 75;
 		p1.velocity = 75;
-		p2 = new tank(490, 400 - 10, Color.RED);
+		p2 = new tank(550, 400 - 10, Color.RED);
 		p2.angle = 105;
 		p2.velocity = 75;
 		// adds tanks and default settings
 		
-		silo silo = new silo(180, new hill(150));
-		obstacles.add(silo);
-		obstacles.add(silo.hill);
-		// add silo and hill
-		obstacles.add(new hill(200));
-		obstacles.add(new mountain(280));
-		obstacles.add(new building(380));
-		obstacles.add(new building(410));
+		obstacles.add(new obstacle("hill", 100, 200));
+		obstacles.add(new obstacle("hill", 300, 200));
 		// adds obstacles
 	}
 	
@@ -44,10 +41,6 @@ public class classic {
 		p1.move();
 		p2.move();
 		// moves players
-		
-		for (object o : obstacles)
-			o.move();
-		// moves obstacles
 		
 		collision();
 		// handles collision
@@ -59,17 +52,8 @@ public class classic {
 		p2.draw(g);
 		// draws the players and their attacks
 		// if attack was shot before player died, don't remove it yet
-		for (int i = 0; i < obstacles.size(); i++) {
-			object o = obstacles.get(i);
-			if (o instanceof silo && o.visible) {
-				silo s = (silo) o;
-				if (!s.hill.visible) {
-					o.draw(g);
-				}
-			} else {
-				o.draw(g);
-			}
-		}
+		
+		for(obstacle o : obstacles) o.draw(g);
 		// draws the obstacles
 		
 		g.setColor(new Color(255, 235, 205));
@@ -108,37 +92,16 @@ public class classic {
 	}
 	
 	public void drawStats(Graphics g) {
-		for (object o : obstacles) {
-			if (o.getHitBox().contains(mx, my) && o.visible) {
-				if (o instanceof silo) {
-					silo s = (silo) o;
-					if (!s.hill.visible) {
-						g.drawString("X: " + o.x + " Y: " + (400 - o.y - o.h), o.x, o.y - 30);
-						g.drawString("W: " + o.w + " H: " + o.h, o.x, o.y - 10);
-					}
-				} else {
-					g.drawString("X: " + o.x + " Y: " + (400 - o.y - o.h), o.x, o.y - 30);
-					g.drawString("W: " + o.w + " H: " + o.h, o.x, o.y - 10);
-				}
-			}
-		}
+		
 		if (p1.getHitBox().contains(mx, my) && p1.visible) {
-			g.drawString("X: " + p1.x + " Y: " + (400 - p1.y - p1.h), p1.x, p1.y - 30);
-			g.drawString("W: " + p1.w + " H: " + p1.h, p1.x, p1.y - 10);
+			g.drawString("X: " + (p1.x + 5), p1.x - 10, p1.y - 30);
+			g.drawString("Y: " + (400 - p1.y - p1.h), p1.x - 10, p1.y - 10);
 		}
 		if (p2.getHitBox().contains(mx, my) && p2.visible) {
-			g.drawString("X: " + p2.x + " Y: " + (400 - p2.y - p2.h), p2.x, p2.y - 30);
-			g.drawString("W: " + p2.w + " H: " + p2.h, p2.x, p2.y - 10);
+			g.drawString("X: " + (p2.x + 5), p2.x -10, p2.y - 30);
+			g.drawString("Y: " + (400 - p2.y - p2.h), p2.x - 10, p2.y - 10);
 		}
 		// check if mouse is hovering over anything and display coordinates
-	}
-	
-	public void mouseClick(int x, int y) {
-		for (object o : obstacles) {
-			if (o.getHitBox().contains(x, y)) {
-				System.out.println(o.health);
-			}
-		}
 	}
 	
 	public void mouseMoved(int x, int y) {
@@ -150,13 +113,9 @@ public class classic {
 		for (attack a : p1.attacks) {
 			Rectangle ar = a.getHitBox();
 			
-			for (object o : obstacles) {
-				if (o.visible && ar.intersects(o.getHitBox())) {
+			for (obstacle o : obstacles) {
+				if (o.hitbox.intersects(ar)) {
 					a.visible = false;
-					o.health -= a.damage;
-					
-					if (o instanceof building && p1.health != 0)
-						p1.ammo += ((building) o).ammoBonus;
 				}
 			}
 			// checks obstacle collision
@@ -182,13 +141,9 @@ public class classic {
 		for (attack a : p2.attacks) {
 			Rectangle ar = a.getHitBox();
 			
-			for (object o : obstacles) {
-				if (o.visible && ar.intersects(o.getHitBox())) {
+			for (obstacle o : obstacles) {
+				if (o.hitbox.intersects(ar)) {
 					a.visible = false;
-					o.health -= a.damage;
-					
-					if (o instanceof building && p2.health != 0)
-						p2.ammo += ((building) o).ammoBonus;
 				}
 			}
 			// checks obstacle collision
