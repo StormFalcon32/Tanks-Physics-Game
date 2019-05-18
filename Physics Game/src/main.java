@@ -157,7 +157,7 @@ public class main extends JPanel implements ActionListener {
 					c.p1.switchW();
 				}
 				
-				if (key == KeyEvent.VK_M) {
+				if (key == KeyEvent.VK_H) {
 					c.p2.switchW();
 				}
 				
