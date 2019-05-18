@@ -16,7 +16,7 @@ public class classic {
 	ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 	// map obstacles
 	
-	//---- TEST ----//
+	// ---- TEST ----//
 	obstacle o;
 	
 	int mx = 0;
@@ -53,7 +53,8 @@ public class classic {
 		// draws the players and their attacks
 		// if attack was shot before player died, don't remove it yet
 		
-		for(obstacle o : obstacles) o.draw(g);
+		for (obstacle o : obstacles)
+			o.draw(g);
 		// draws the obstacles
 		
 		g.setColor(new Color(255, 235, 205));
@@ -98,7 +99,7 @@ public class classic {
 			g.drawString("Y: " + (400 - p1.y - p1.h), p1.x - 10, p1.y - 10);
 		}
 		if (p2.getHitBox().contains(mx, my) && p2.visible) {
-			g.drawString("X: " + (p2.x + 5), p2.x -10, p2.y - 30);
+			g.drawString("X: " + (p2.x + 5), p2.x - 10, p2.y - 30);
 			g.drawString("Y: " + (400 - p2.y - p2.h), p2.x - 10, p2.y - 10);
 		}
 		// check if mouse is hovering over anything and display coordinates
@@ -109,8 +110,15 @@ public class classic {
 		my = y;
 	}
 	
+	public void mouseClick() {
+		
+	}
+	
 	public void collision() {
 		for (attack a : p1.attacks) {
+			if (a instanceof splitbomb) {
+				
+			}
 			Rectangle ar = a.getHitBox();
 			
 			for (obstacle o : obstacles) {
@@ -164,5 +172,4 @@ public class classic {
 			// if it goes out of bounds, it disappears
 		}
 	}
-	
 }

@@ -3,45 +3,45 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class tank extends object {
-
+	
 	int ammo = 50;
 	// ammo available, default 50
-
+	
 	double angle = 0;
 	// launch angle in degrees, default 0
-
+	
 	double velocity = 0;
 	// launch velocity, default 75
-
-	String type = "Bullet";
+	
+	String type = "Split";
 	// attack type, default Bullet
-
+	
 	boolean up;
 	boolean down;
 	boolean left;
 	boolean right;
 	// controls
-
+	
 	ArrayList<attack> attacks = new ArrayList<attack>();
-
+	
 	int[] xPoints = new int[20];
 	int[] yPoints = new int[20];
 	// trajectory coordinates
-
+	
 	int bx;
 	// x offset by 5 (use for bullet calculations)
-
+	
 	public tank(int x, int y, Color c) {
 		super(x, y, 10, 10, c);
 		health = 100;
 		bx = x + 5;
 	}
-
+	
 	public void move() {
 		for (attack a : attacks)
 			a.move();
 		// moves all attacks
-
+		
 		for (int x = 0; x != attacks.size(); x++) {
 			if (!attacks.get(x).visible) {
 				attacks.remove(x);
@@ -65,9 +65,9 @@ public class tank extends object {
 		// if no health, invisible
 		genTrajectory();
 	}
-
+	
 	public void draw(Graphics g) {
-
+		
 		for (attack a : attacks) {
 			a.draw(g);
 		}
@@ -79,26 +79,30 @@ public class tank extends object {
 		g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
-
+	
 	public void shoot() {
 		bx = x + 5;
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
-
-		attack a = new attack(bx, y, angle, velocity, 20, c);
-		// offset shot so it starts in the middle of the tank
+		attack a = null;
+		if (type.equals("Bullet")) {
+			a = new attack(bx, y, angle, velocity, 20, c);
+			// offset shot so it starts in the middle of the tank
+		} else if (type.equals("Split")) {
+			a = new splitbomb(bx, y, angle, velocity, 20, c);
+		}
 		attacks.add(a);
 		ammo -= 10;
 		// adds an attack, lowers ammo
 	}
-
+	
 	public void genTrajectory() {
-
+		
 		bx = x + 5;
 		double vx = velocity * Math.cos(Math.toRadians(-angle));
 		double vy = velocity * Math.sin(Math.toRadians(-angle));
-
+		
 		for (int z = 0; z != 20; z++) {
 			double coordX = bx + vx * z;
 			double coordY = y + vy * z + (10 * z * z / 2);
@@ -107,5 +111,5 @@ public class tank extends object {
 		}
 		// calculates the trajectory according to projectile motion
 	}
-
+	
 }
