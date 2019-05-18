@@ -12,16 +12,8 @@ public class splitbomb extends attack {
 	boolean split;
 	// has the projectile split yet
 	
-	boolean left;
-	// which way is the projectile going
-	
 	public splitbomb(int x, int y, double a, double v, int d, Color c) {
 		super(x, y, a, v, d, c);
-		if (aI > Math.PI / 2) {
-			left = true;
-		} else {
-			left = false;
-		}
 		vertexTime = calcVertex();
 		// TODO Auto-generated constructor stub
 	}
@@ -30,39 +22,26 @@ public class splitbomb extends attack {
 		return (-vy) / 10;
 	}
 	
-	public boolean outOfRange() {
-		if (split) {
-			for (attack a : splits) {
-				if (a.y <= 400) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return y > 400;
-	}
-	
 	public void move() {
 		if (!split) {
 			super.move();
 		} else {
-			for (attack a : splits) {
-				a.move();
+			for (int x = 0; x != splits.size(); x++) {
+				attack s = splits.get(x);
+				if (s.visible) {
+					s.move();
+				} else {
+					splits.remove(x);
+					x--;
+				}
 			}
 		}
 		if (!split && time > vertexTime) {
 			split = true;
 			double newV = (5 * vx) / (2 * Math.sqrt(3));
-			splits.add(new attack(x, y, 0, vx / 2, damage, c));
-			splits.add(new attack(x, y, 30, newV, damage, c));
-			splits.add(new attack(x, y, 330, newV, damage, c));
-		}
-	}
-	
-	public void clear() {
-		for (int x = 0; x != splits.size(); x++) {
-			splits.remove(x);
-			x--;
+			splits.add(new attack(x, y, 0, vx / 2, damage / 3, c));
+			splits.add(new attack(x, y, 30, newV, damage / 3, c));
+			splits.add(new attack(x, y, 330, newV, damage / 3, c));
 		}
 	}
 	

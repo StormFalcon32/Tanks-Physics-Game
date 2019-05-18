@@ -13,6 +13,9 @@ public class classic {
 	tank p2;
 	// player tanks
 	
+	String[] types = { "Bullet", "Blue Bird" };
+	// weapon names
+	
 	ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 	// map obstacles
 	
@@ -68,14 +71,14 @@ public class classic {
 		g.drawString("Health: " + p1.health + " Ammo: " + p1.ammo, 10, 460);
 		g.drawString("Launch Angle: " + p1.angle, 10, 490);
 		g.drawString("Launch Velocity: " + p1.velocity, 10, 520);
-		g.drawString("Attack: " + p1.type, 10, 550);
+		g.drawString("Attack: " + types[p1.type], 10, 550);
 		// player 1 stats
 		
 		g.drawString("Player 2", 310, 430);
 		g.drawString("Health: " + p2.health + " Ammo: " + p2.ammo, 310, 460);
 		g.drawString("Launch Angle: " + p2.angle, 310, 490);
 		g.drawString("Launch Velocity: " + p2.velocity, 310, 520);
-		g.drawString("Attack: " + p2.type, 310, 550);
+		g.drawString("Attack: " + types[p2.type], 310, 550);
 		// player 2 stats
 		
 		g.drawString("Alter angle: A/D or Left/Right", 50, 50);
@@ -117,59 +120,112 @@ public class classic {
 	public void collision() {
 		for (attack a : p1.attacks) {
 			if (a instanceof splitbomb) {
+				for (attack s : ((splitbomb) a).splits) {
+					Rectangle ar = s.getHitBox();
+					
+					for (obstacle o : obstacles) {
+						if (o.hitbox.intersects(ar)) {
+							s.visible = false;
+						}
+					}
+					// checks obstacle collision
+					// attacks disappear and deal damage
+					
+					if (p2.visible && ar.intersects(p2.getHitBox())) {
+						s.visible = false;
+						p2.health -= s.damage;
+						if (p2.health == 0) {
+							p2.ammo = 0;
+						}
+					}
+					// checks player 2 collision
+					// attacks disappear and deal damage
+					
+					if (ar.y > 400)
+						s.visible = false;
+					// if it goes out of bounds, it disappears
+				}
+			} else {
+				Rectangle ar = a.getHitBox();
 				
-			}
-			Rectangle ar = a.getHitBox();
-			
-			for (obstacle o : obstacles) {
-				if (o.hitbox.intersects(ar)) {
+				for (obstacle o : obstacles) {
+					if (o.hitbox.intersects(ar)) {
+						a.visible = false;
+					}
+				}
+				// checks obstacle collision
+				// attacks disappear and deal damage
+				
+				if (p2.visible && ar.intersects(p2.getHitBox())) {
 					a.visible = false;
+					p2.health -= a.damage;
+					if (p2.health == 0) {
+						p2.ammo = 0;
+					}
 				}
+				// checks player 2 collision
+				// attacks disappear and deal damage
+				
+				if (ar.y > 400)
+					a.visible = false;
+				// if it goes out of bounds, it disappears
 			}
-			// checks obstacle collision
-			// attacks disappear and deal damage
-			
-			if (p2.visible && ar.intersects(p2.getHitBox())) {
-				a.visible = false;
-				p2.health -= a.damage;
-				if (p2.health == 0) {
-					p2.ammo = 0;
-				}
-			}
-			// checks player 2 collision
-			// attacks disappear and deal damage
-			
-			if (ar.y > 400)
-				a.visible = false;
-			// if it goes out of bounds, it disappears
 		}
 		
 		// ---- literally the same thing but for player 2 ----//
 		
 		for (attack a : p2.attacks) {
-			Rectangle ar = a.getHitBox();
-			
-			for (obstacle o : obstacles) {
-				if (o.hitbox.intersects(ar)) {
+			if (a instanceof splitbomb) {
+				for (attack s : ((splitbomb) a).splits) {
+					Rectangle ar = s.getHitBox();
+					
+					for (obstacle o : obstacles) {
+						if (o.hitbox.intersects(ar)) {
+							s.visible = false;
+						}
+					}
+					// checks obstacle collision
+					// attacks disappear and deal damage
+					
+					if (p1.visible && ar.intersects(p1.getHitBox())) {
+						s.visible = false;
+						p1.health -= s.damage;
+						if (p1.health == 0) {
+							p1.ammo = 0;
+						}
+					}
+					// checks player 1 collision
+					// attacks disappear and deal damage
+					
+					if (ar.y > 400)
+						s.visible = false;
+					// if it goes out of bounds, it disappears
+				}
+			} else {
+				Rectangle ar = a.getHitBox();
+				
+				for (obstacle o : obstacles) {
+					if (o.hitbox.intersects(ar)) {
+						a.visible = false;
+					}
+				}
+				// checks obstacle collision
+				// attacks disappear and deal damage
+				
+				if (p1.visible && ar.intersects(p1.getHitBox())) {
 					a.visible = false;
+					p1.health -= a.damage;
+					if (p1.health == 0) {
+						p1.ammo = 0;
+					}
 				}
+				// checks player 1 collision
+				// attacks disappear and deal damage
+				
+				if (ar.y > 400)
+					a.visible = false;
+				// if it goes out of bounds, it disappears
 			}
-			// checks obstacle collision
-			// attacks disappear and deal damage
-			
-			if (p1.visible && ar.intersects(p1.getHitBox())) {
-				a.visible = false;
-				p1.health -= a.damage;
-				if (p1.health == 0) {
-					p1.ammo = 0;
-				}
-			}
-			// checks player 1 collision
-			// attacks disappear and deal damage
-			
-			if (ar.y > 400)
-				a.visible = false;
-			// if it goes out of bounds, it disappears
 		}
 	}
 }

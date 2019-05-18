@@ -153,6 +153,14 @@ public class main extends JPanel implements ActionListener {
 					c = new classic();
 				}
 				
+				if (key == KeyEvent.VK_F) {
+					c.p1.switchW();
+				}
+				
+				if (key == KeyEvent.VK_M) {
+					c.p2.switchW();
+				}
+				
 				if (key == KeyEvent.VK_A)
 					c.p1.left = false;
 				if (key == KeyEvent.VK_D)
