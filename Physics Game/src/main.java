@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
@@ -38,7 +37,7 @@ public class main extends JPanel implements ActionListener {
 	// game state
 	
 	classic c = new classic();
-	title t = new title();
+	title t = new title(c.day, c.sunX, c.sunY);
 	// game components
 	
 	// ---- CONSTRUCTOR ----//
@@ -47,7 +46,6 @@ public class main extends JPanel implements ActionListener {
 		// instantiates the game panel
 		
 		addKeyListener(new KAdapter());
-		addMouseListener(new MAdapter());
 		addMouseMotionListener(new MMotionAdapter());
 		// adds key input
 		setFocusable(true);
@@ -141,25 +139,59 @@ public class main extends JPanel implements ActionListener {
 			int key = e.getKeyCode();
 			
 			if (state.equals("title")) {
-				if (key == KeyEvent.VK_SPACE)
-					state = "classic";
+				if (key == KeyEvent.VK_SPACE) {
+					switch (t.selection) {
+					case 0:
+						state = "classic";
+						break;
+					case 1:
+						state = "tutorial";
+						break;
+					case 2:
+						state = "credits";
+						break;
+					}
+				}
+				if (key == KeyEvent.VK_W)
+					t.selection = Math.max(0, t.selection - 1);
+				if (key == KeyEvent.VK_S)
+					t.selection = Math.min(2, t.selection + 1);
+				if (key == KeyEvent.VK_UP)
+					t.selection = Math.max(0, t.selection - 1);
+				if (key == KeyEvent.VK_DOWN)
+					t.selection = Math.min(2, t.selection + 1);
 			} else if (state.equals("classic")) {
-				if (key == KeyEvent.VK_E)
+				if (key == KeyEvent.VK_SHIFT && e.getKeyLocation() == KeyEvent.KEY_LOCATION_LEFT)
 					c.p1.shoot();
 				if (key == KeyEvent.VK_SPACE)
 					c.p2.shoot();
 				if (key == KeyEvent.VK_R) {
 					state = "title";
 					c = new classic();
+					t = new title(c.day, c.sunX, c.sunY);
 				}
 				
 				if (key == KeyEvent.VK_F) {
 					c.p1.switchW();
 				}
-				
 				if (key == KeyEvent.VK_H) {
 					c.p2.switchW();
 				}
+				// weapon switch
+				
+				if (key == KeyEvent.VK_Q) {
+					c.moveTank(1, true);
+				}
+				if (key == KeyEvent.VK_E) {
+					c.moveTank(1, false);
+				}
+				if (key == KeyEvent.VK_N) {
+					c.moveTank(2, true);
+				}
+				if (key == KeyEvent.VK_M) {
+					c.moveTank(2, false);
+				}
+				// movement
 				
 				if (key == KeyEvent.VK_A)
 					c.p1.left = false;
@@ -179,17 +211,6 @@ public class main extends JPanel implements ActionListener {
 					c.p2.down = false;
 			}
 			
-		}
-	}
-	
-	private class MAdapter extends MouseAdapter {
-		
-		public void mouseReleased(MouseEvent e) {
-			
-			// mouse coordinates
-			if (state.equals("classic")) {
-				c.mouseClick();
-			}
 		}
 	}
 	

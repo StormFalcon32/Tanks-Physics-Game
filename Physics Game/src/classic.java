@@ -29,18 +29,41 @@ public class classic {
 	sprites sp = new sprites();
 	// sprites
 	
+	boolean day;
+	// day or night
+	
+	int[] yPoints = { 250, 200, 170, 155, 150, 155, 170, 200, 250 };
+	int[] xPoints = { 100, 150, 200, 250, 300, 350, 400, 450, 500 };
+	// trajectory of sun/moon
+	
+	int sunX;
+	int sunY;
+	// coordinates of sun/moon
+	
 	public classic() {
-		p1 = new tank(50, 400 - 10, 1, sp);
+		p1 = new tank(45, 400 - 10, 1, sp);
 		p1.angle = 75;
 		p1.velocity = 75;
-		p2 = new tank(550, 400 - 10, 2, sp);
+		p2 = new tank(545, 400 - 10, 2, sp);
 		p2.angle = 105;
 		p2.velocity = 75;
 		// adds tanks and default settings
 		
-		obstacles.add(new obstacle("hill", 100, 200));
-		obstacles.add(new obstacle("hill", 300, 200));
-		// adds obstacles
+		int randomWeather = (int) (Math.random() * 9);
+		if (randomWeather > 4) {
+			day = true;
+		} else {
+			day = false;
+		}
+		sunX = xPoints[randomWeather];
+		sunY = yPoints[randomWeather];
+		// determine weather randomly
+		
+		int random = ((int) (Math.random() * 4)) + 3;
+		obstacles.add(new obstacle("silohill", random * 50, 150));
+		obstacles.add(new obstacle("hill", 100, random * 50 - 100));
+		obstacles.add(new obstacle("mountain", random * 50 + 150, 500 - (random * 50 + 150)));
+		// adds obstacles randomly
 	}
 	
 	public void move() {
@@ -55,7 +78,8 @@ public class classic {
 	public void draw(Graphics g) {
 		g.setFont(sp.fonts[0]);
 		
-		g.drawImage(sp.background[0], 0, -200, null);
+		g.drawImage((day) ? sp.background[0] : sp.background[2], 0, -400, null);
+		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY, null);
 		p1.draw(g);
 		p2.draw(g);
 		// draws the players
@@ -117,8 +141,37 @@ public class classic {
 		my = y;
 	}
 	
-	public void mouseClick() {
-		
+	public void moveTank(int p, boolean left) {
+		if (p == 1) {
+			if (left) {
+				if (p1.x - 50 > -5) {
+					p1.x -= 50;
+				}
+			} else {
+				if (p1.x + 50 < p2.x) {
+					p1.x += 50;
+				}
+			}
+		} else {
+			if (left) {
+				if (p2.x - 50 > p1.x) {
+					p2.x -= 50;
+				}
+			} else {
+				if (p2.x + 50 < 595) {
+					p2.x += 50;
+				}
+			}
+		}
+		for (obstacle o : obstacles) {
+			if (o.xToIndex[p1.x + 5] != -1) {
+				p1.y = o.ypoints[o.xToIndex[p1.x + 5]] - 10;
+			}
+			
+			if (o.xToIndex[p2.x + 5] != -1) {
+				p2.y = o.ypoints[o.xToIndex[p2.x + 5]] - 10;
+			}
+		}
 	}
 	
 	public void collision() {

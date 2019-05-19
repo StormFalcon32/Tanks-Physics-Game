@@ -36,7 +36,7 @@ public class sprites {
 		}
 		
 		fonts[0] = fonts[0].deriveFont(16f);
-		fonts[1] = fonts[1].deriveFont(18f);
+		fonts[1] = fonts[1].deriveFont(24f);
 		fonts[2] = fonts[2].deriveFont(30f);
 		fonts[3] = fonts[3].deriveFont(40f);
 		

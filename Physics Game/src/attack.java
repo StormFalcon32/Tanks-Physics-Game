@@ -57,7 +57,7 @@ public class attack extends object {
 	}
 	
 	public void draw(Graphics g) {
-		if (!visible) {
+		if (!visible || count < 5) {
 			return;
 		}
 		if (type == 1) {
