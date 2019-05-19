@@ -53,11 +53,12 @@ public class classic {
 	}
 	
 	public void draw(Graphics g) {
+		g.setFont(sp.fonts[0]);
 		
+		g.drawImage(sp.background[0], 0, -200, null);
 		p1.draw(g);
 		p2.draw(g);
-		// draws the players and their attacks
-		// if attack was shot before player died, don't remove it yet
+		// draws the players
 		
 		for (obstacle o : obstacles)
 			o.draw(g);
@@ -70,29 +71,29 @@ public class classic {
 		g.setColor(Color.BLACK);
 		// resets text color
 		
-		g.drawString("Player 1", 10, 430);
+		g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0 : Math.max(0, (30000 + p1.lastTime - System.currentTimeMillis()) / 1000)), 10, 430);
 		g.drawString("Health: " + p1.health + " Ammo: " + p1.ammo, 10, 460);
-		g.drawString("Launch Angle: " + p1.angle, 10, 490);
-		g.drawString("Launch Velocity: " + p1.velocity, 10, 520);
-		g.drawString("Attack: " + types[p1.type], 10, 550);
+		g.drawString("Angle: " + p1.angle, 10, 490);
+		g.drawString("Velocity: " + p1.velocity, 10, 520);
+		g.drawString("Weapon: " + types[p1.type], 10, 550);
 		// player 1 stats
 		
-		g.drawString("Player 2", 310, 430);
+		g.drawString("Cooldown: " + ((p2.lastTime == -1) ? 0 : Math.max(0, (30000 + p2.lastTime - System.currentTimeMillis()) / 1000)), 310, 430);
 		g.drawString("Health: " + p2.health + " Ammo: " + p2.ammo, 310, 460);
-		g.drawString("Launch Angle: " + p2.angle, 310, 490);
-		g.drawString("Launch Velocity: " + p2.velocity, 310, 520);
-		g.drawString("Attack: " + types[p2.type], 310, 550);
+		g.drawString("Angle: " + p2.angle, 310, 490);
+		g.drawString("Velocity: " + p2.velocity, 310, 520);
+		g.drawString("Weapon: " + types[p2.type], 310, 550);
 		// player 2 stats
 		
-		g.drawString("Alter angle: A/D or Left/Right", 50, 50);
-		g.drawString("Alter velocity: W/S or Up/Down", 50, 80);
-		g.drawString("Fire: E or Space", 50, 110);
-		g.drawString("Title: R", 50, 140);
-		
-		g.drawString("Welcome to the demo build", 300, 50);
-		g.drawString("Hills and buildings can be destroyed", 300, 80);
-		g.drawString("Buildings reload very quickly here", 300, 110);
-		g.drawString("Destroy the hills for a surprise", 300, 140);
+		// g.drawString("Alter angle: A/D or Left/Right", 50, 50);
+		// g.drawString("Alter velocity: W/S or Up/Down", 50, 80);
+		// g.drawString("Fire: E or Space", 50, 110);
+		// g.drawString("Title: R", 50, 140);
+		//
+		// g.drawString("Welcome to the demo build", 300, 50);
+		// g.drawString("Hills and buildings can be destroyed", 300, 80);
+		// g.drawString("Buildings reload very quickly here", 300, 110);
+		// g.drawString("Destroy the hills for a surprise", 300, 140);
 		// information
 		
 		drawStats(g);
@@ -101,12 +102,12 @@ public class classic {
 	public void drawStats(Graphics g) {
 		
 		if (p1.getHitBox().contains(mx, my) && p1.visible) {
-			g.drawString("X: " + (p1.x + 5), p1.x - 10, p1.y - 30);
-			g.drawString("Y: " + (400 - p1.y - p1.h), p1.x - 10, p1.y - 10);
+			g.drawString("X: " + (p1.x + 5), p1.x - 20, p1.y - 30);
+			g.drawString("Y: " + (400 - p1.y - p1.h), p1.x - 20, p1.y - 10);
 		}
 		if (p2.getHitBox().contains(mx, my) && p2.visible) {
-			g.drawString("X: " + (p2.x + 5), p2.x - 10, p2.y - 30);
-			g.drawString("Y: " + (400 - p2.y - p2.h), p2.x - 10, p2.y - 10);
+			g.drawString("X: " + (p2.x + 5), p2.x - 20, p2.y - 30);
+			g.drawString("Y: " + (400 - p2.y - p2.h), p2.x - 20, p2.y - 10);
 		}
 		// check if mouse is hovering over anything and display coordinates
 	}

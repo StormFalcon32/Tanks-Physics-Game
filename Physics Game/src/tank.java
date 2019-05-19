@@ -36,7 +36,7 @@ public class tank extends object {
 	int bx;
 	// x offset by 5 (use for bullet calculations)
 	
-	double lastTime = System.currentTimeMillis();
+	double lastTime = -1;
 	// timer for cooldown
 	
 	public tank(int x, int y, int player, sprites sp) {
@@ -88,18 +88,18 @@ public class tank extends object {
 	}
 	
 	public void draw(Graphics g) {
-		
 		for (attack a : attacks) {
 			a.draw(g);
 		}
 		if (!visible) {
 			return;
 		}
-		super.draw(g);
 		double rads = (player == 1) ? Math.toRadians(-angle) : Math.toRadians(180 - angle);
 		g.drawImage(rotateImg(barrelSp, rads), (int) (x + ((player == 1) ? 4 * Math.cos(-rads) + 3 : -8 * Math.cos(-rads) + 5)),
 				(int) (y - ((player == 1) ? 8 * Math.sin(-rads) : -8 * Math.sin(-rads))) + 5, null);
 		// draw barrels (don't try and understand it, just accept that it works)
+		
+		super.draw(g);
 		
 		// g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
@@ -110,7 +110,7 @@ public class tank extends object {
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
-		if (System.currentTimeMillis() - lastTime > 30000) {
+		if (System.currentTimeMillis() - lastTime > 30000 || lastTime == -1) {
 			attack a = null;
 			if (type == 0) {
 				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
