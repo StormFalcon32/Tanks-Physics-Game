@@ -95,6 +95,7 @@ public class tank extends object {
 		double rads = (player == 1) ? Math.toRadians(-angle) : Math.toRadians(180 - angle);
 		g.drawImage(rotateImg(barrelSp, rads), (int) (x + ((player == 1) ? 4 * Math.cos(-rads) + 3 : -8 * Math.cos(-rads) + 5)),
 				(int) (y - ((player == 1) ? 8 * Math.sin(-rads) : -8 * Math.sin(-rads))) + 5, null);
+		// draw barrels (don't try and understand it, just accept that it works)
 		// g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
