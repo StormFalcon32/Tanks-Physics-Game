@@ -74,7 +74,7 @@ public class attack extends object {
 		// each increment is 1/20th of a second
 		currVx = vx + ax * time;
 		currVy = vy + ay * time;
-		currA = Math.atan(-currVy / currVx);
+		currA = Math.atan(-currVy / currVx) + ((currVx > 0) ? 0 : Math.PI);
 		x = (int) (sx + vx * time + (ax / 2 * time * time));
 		y = (int) (sy + vy * time + (ay / 2 * time * time));
 		// updates current position according to projectile motion
