@@ -21,6 +21,12 @@ public class tank extends object {
 	boolean right;
 	// controls
 	
+	int player;
+	// player num
+	
+	BufferedImage barrelSp;
+	// barrel sprite
+	
 	ArrayList<attack> attacks = new ArrayList<attack>();
 	
 	int[] xPoints = new int[20];
@@ -30,8 +36,10 @@ public class tank extends object {
 	int bx;
 	// x offset by 5 (use for bullet calculations)
 	
-	public tank(int x, int y, BufferedImage currSp, sprites sp) {
-		super(x, y, 10, 10, currSp, sp);
+	public tank(int x, int y, int player, sprites sp) {
+		super(x, y, 10, 10, (player == 1) ? sp.tanks[0] : sp.tanks[2], sp);
+		this.barrelSp = (player == 1) ? sp.tanks[1] : sp.tanks[3];
+		this.player = player;
 		health = 100;
 		bx = x + 5;
 	}
@@ -49,13 +57,23 @@ public class tank extends object {
 		}
 		// removes all invisible attacks
 		if (up && !down)
-			velocity += 0.1;
+			velocity = Math.min(300, velocity + 0.1);
 		if (down && !up)
-			velocity -= 0.1;
-		if (left && !right)
-			angle += 0.1;
-		if (right && !left)
-			angle -= 0.1;
+			velocity = Math.max(0, velocity - 0.1);
+		if (left && !right) {
+			if (player == 1) {
+				angle = Math.min(85, angle + 0.1);
+			} else {
+				angle = Math.min(185, angle + 0.1);
+			}
+		}
+		if (right && !left) {
+			if (player == 1) {
+				angle = Math.max(-5, angle - 0.1);
+			} else {
+				angle = Math.max(95, angle - 0.1);
+			}
+		}
 		velocity = Math.round(velocity * 100.0) / 100.0;
 		angle = Math.round(angle * 100.0) / 100.0;
 		// adjusts
@@ -74,7 +92,10 @@ public class tank extends object {
 			return;
 		}
 		super.draw(g);
-		g.drawPolyline(xPoints, yPoints, 20);
+		double rads = (player == 1) ? Math.toRadians(-angle) : Math.toRadians(180 - angle);
+		g.drawImage(rotateImg(barrelSp, rads), (int) (x + ((player == 1) ? 4 * Math.cos(-rads) + 3 : -8 * Math.cos(-rads) + 5)),
+				(int) (y - ((player == 1) ? 8 * Math.sin(-rads) : -8 * Math.sin(-rads))) + 5, null);
+		// g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	
