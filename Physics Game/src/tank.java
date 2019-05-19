@@ -36,6 +36,9 @@ public class tank extends object {
 	int bx;
 	// x offset by 5 (use for bullet calculations)
 	
+	double lastTime = System.currentTimeMillis();
+	// timer for cooldown
+	
 	public tank(int x, int y, int player, sprites sp) {
 		super(x, y, 10, 10, (player == 1) ? sp.tanks[0] : sp.tanks[2], sp);
 		this.barrelSp = (player == 1) ? sp.tanks[1] : sp.tanks[3];
@@ -76,10 +79,11 @@ public class tank extends object {
 		}
 		velocity = Math.round(velocity * 100.0) / 100.0;
 		angle = Math.round(angle * 100.0) / 100.0;
-		// adjusts
+		// player controls and rounding
 		if (health <= 0)
 			visible = false;
 		// if no health, invisible
+		
 		// genTrajectory();
 	}
 	
@@ -96,6 +100,7 @@ public class tank extends object {
 		g.drawImage(rotateImg(barrelSp, rads), (int) (x + ((player == 1) ? 4 * Math.cos(-rads) + 3 : -8 * Math.cos(-rads) + 5)),
 				(int) (y - ((player == 1) ? 8 * Math.sin(-rads) : -8 * Math.sin(-rads))) + 5, null);
 		// draw barrels (don't try and understand it, just accept that it works)
+		
 		// g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
@@ -105,16 +110,20 @@ public class tank extends object {
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
-		attack a = null;
-		if (type == 0) {
-			a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
-			// offset shot so it starts in the middle of the tank
-		} else if (type == 1) {
-			a = new splitbomb(bx, y, angle, velocity, 180, type, sp.weapons[1], sp);
+		if (System.currentTimeMillis() - lastTime > 30000) {
+			attack a = null;
+			if (type == 0) {
+				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
+				// offset shot so it starts in the middle of the tank
+			} else if (type == 1) {
+				a = new splitbomb(bx, y, angle, velocity, 180, type, sp.weapons[1], sp);
+			}
+			attacks.add(a);
+			ammo -= 10;
+			// adds an attack, lowers ammo
+			lastTime = System.currentTimeMillis();
 		}
-		attacks.add(a);
-		ammo -= 10;
-		// adds an attack, lowers ammo
+		// only shoot after cooldown
 	}
 	
 	public void switchW() {
