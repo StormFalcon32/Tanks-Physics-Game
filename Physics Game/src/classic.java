@@ -19,6 +19,9 @@ public class classic {
 	ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 	// map obstacles
 	
+	ArrayList<building> buildings = new ArrayList<building>();
+	// map buildings
+	
 	// ---- TEST ----//
 	obstacle o;
 	
@@ -59,11 +62,15 @@ public class classic {
 		sunY = yPoints[randomWeather];
 		// determine weather randomly
 		
-		int random = ((int) (Math.random() * 4)) + 3;
+		int random = ((int) (Math.random() * 2)) + 4;
 		obstacles.add(new obstacle("silohill", random * 50, 150));
 		obstacles.add(new obstacle("hill", 100, random * 50 - 100));
 		obstacles.add(new obstacle("mountain", random * 50 + 150, 500 - (random * 50 + 150)));
 		// adds obstacles randomly
+		
+		buildings.add(new building(140, obstacles.get(1).ypoints[obstacles.get(1).xToIndex[150]] - 10, sp.buildings[0], sp));
+		buildings.add(new building(440, obstacles.get(2).ypoints[obstacles.get(2).xToIndex[450]] - 10, sp.buildings[0], sp));
+		// add ammo buildings
 	}
 	
 	public void move() {
@@ -71,6 +78,9 @@ public class classic {
 		p2.move();
 		// moves players
 		
+		for (building b : buildings)
+			b.move(p1.x, p2.x);
+		// moves buildings
 		collision();
 		// handles collision
 	}
@@ -87,6 +97,10 @@ public class classic {
 		for (obstacle o : obstacles)
 			o.draw(g);
 		// draws the obstacles
+		
+		for (building b : buildings)
+			b.draw(g);
+		// draws the buildings
 		
 		g.setColor(new Color(255, 235, 205));
 		g.fillRect(0, 400, 600, 200);
@@ -133,6 +147,13 @@ public class classic {
 			g.drawString("X: " + (p2.x + 5), p2.x - 20, p2.y - 30);
 			g.drawString("Y: " + (400 - p2.y - p2.h), p2.x - 20, p2.y - 10);
 		}
+		
+		for (building b : buildings) {
+			if (b.getHitBox().contains(mx, my) && b.visible) {
+				g.drawString("X: " + (b.x + 10), b.x - 20, b.y - 30);
+				g.drawString("Y: " + (400 - b.y - b.h), b.x - 20, b.y - 10);
+			}
+		}
 		// check if mouse is hovering over anything and display coordinates
 	}
 	
@@ -144,21 +165,57 @@ public class classic {
 	public void moveTank(int p, boolean left) {
 		if (p == 1) {
 			if (left) {
-				if (p1.x - 50 > -5) {
+				boolean good = true;
+				if (p1.x - 50 <= -5) {
+					good = false;
+				}
+				for (building b : buildings) {
+					if (p1.x - 50 == b.x + 5 && b.visible) {
+						good = false;
+					}
+				}
+				if (good) {
 					p1.x -= 50;
 				}
 			} else {
-				if (p1.x + 50 < p2.x) {
+				boolean good = true;
+				if (p1.x + 50 >= p2.x) {
+					good = false;
+				}
+				for (building b : buildings) {
+					if (p1.x + 50 == b.x + 5 && b.visible) {
+						good = false;
+					}
+				}
+				if (good) {
 					p1.x += 50;
 				}
 			}
 		} else {
 			if (left) {
-				if (p2.x - 50 > p1.x) {
+				boolean good = true;
+				if (p2.x - 50 <= p1.x) {
+					good = false;
+				}
+				for (building b : buildings) {
+					if (p2.x - 50 == b.x + 5 && b.visible) {
+						good = false;
+					}
+				}
+				if (good) {
 					p2.x -= 50;
 				}
 			} else {
-				if (p2.x + 50 < 595) {
+				boolean good = true;
+				if (p2.x + 50 >= 595) {
+					good = false;
+				}
+				for (building b : buildings) {
+					if (p2.x + 50 == b.x + 5 && b.visible) {
+						good = false;
+					}
+				}
+				if (good) {
 					p2.x += 50;
 				}
 			}
@@ -185,6 +242,13 @@ public class classic {
 							s.visible = false;
 						}
 					}
+					for (building b : buildings) {
+						if (b.getHitBox().intersects(ar) && b.visible) {
+							s.visible = false;
+							b.health = 0;
+							p1.ammo += b.ammoBonus;
+						}
+					}
 					// checks obstacle collision
 					// attacks disappear and deal damage
 					
@@ -209,6 +273,13 @@ public class classic {
 				for (obstacle o : obstacles) {
 					if (o.hitbox.intersects(ar)) {
 						a.visible = false;
+					}
+				}
+				for (building b : buildings) {
+					if (b.getHitBox().intersects(ar) && b.visible) {
+						a.visible = false;
+						b.health = 0;
+						p1.ammo += b.ammoBonus;
 					}
 				}
 				// checks obstacle collision
@@ -243,6 +314,13 @@ public class classic {
 							s.visible = false;
 						}
 					}
+					for (building b : buildings) {
+						if (b.getHitBox().intersects(ar) && b.visible) {
+							s.visible = false;
+							b.health = 0;
+							p2.ammo += b.ammoBonus;
+						}
+					}
 					// checks obstacle collision
 					// attacks disappear and deal damage
 					
@@ -267,6 +345,13 @@ public class classic {
 				for (obstacle o : obstacles) {
 					if (o.hitbox.intersects(ar)) {
 						a.visible = false;
+					}
+				}
+				for (building b : buildings) {
+					if (b.getHitBox().intersects(ar) && b.visible) {
+						a.visible = false;
+						b.health = 0;
+						p2.ammo += b.ammoBonus;
 					}
 				}
 				// checks obstacle collision

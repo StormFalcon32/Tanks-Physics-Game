@@ -65,7 +65,7 @@ public class tank extends object {
 			velocity = Math.max(0, velocity - 0.1);
 		if (left && !right) {
 			if (player == 1) {
-				angle = Math.min(85, angle + 0.1);
+				angle = Math.min(185, angle + 0.1);
 			} else {
 				angle = Math.min(185, angle + 0.1);
 			}
@@ -74,7 +74,7 @@ public class tank extends object {
 			if (player == 1) {
 				angle = Math.max(-5, angle - 0.1);
 			} else {
-				angle = Math.max(95, angle - 0.1);
+				angle = Math.max(-5, angle - 0.1);
 			}
 		}
 		velocity = Math.round(velocity * 100.0) / 100.0;
@@ -84,24 +84,23 @@ public class tank extends object {
 			visible = false;
 		// if no health, invisible
 		
-		// genTrajectory();
+		genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
-		for (attack a : attacks) {
+		for (attack a : attacks)
 			a.draw(g);
-		}
 		if (!visible) {
 			return;
 		}
 		double rads = (player == 1) ? Math.toRadians(-angle) : Math.toRadians(180 - angle);
-		g.drawImage(rotateImg(barrelSp, rads), (int) (x + ((player == 1) ? 4 * Math.cos(-rads) + 3 : -8 * Math.cos(-rads) + 5)),
-				(int) (y - ((player == 1) ? 8 * Math.sin(-rads) : -8 * Math.sin(-rads))) + 5, null);
+		g.drawImage(rotateImg(barrelSp, rads), (int) (x + ((player == 1) ? 4 * Math.cos(-rads) + 3 : -4 * Math.cos(-rads) + 4)),
+				(int) (y - ((player == 1) ? 8 * Math.sin(-rads) : -8 * Math.sin(-rads))) + 4, null);
 		// draw barrels (don't try and understand it, just accept that it works)
 		
 		super.draw(g);
 		
-		// g.drawPolyline(xPoints, yPoints, 20);
+		g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	
