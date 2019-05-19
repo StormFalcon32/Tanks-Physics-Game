@@ -1,5 +1,5 @@
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class tank extends object {
@@ -30,8 +30,8 @@ public class tank extends object {
 	int bx;
 	// x offset by 5 (use for bullet calculations)
 	
-	public tank(int x, int y, Color c) {
-		super(x, y, 10, 10, c);
+	public tank(int x, int y, BufferedImage currSp, sprites sp) {
+		super(x, y, 10, 10, currSp, sp);
 		health = 100;
 		bx = x + 5;
 	}
@@ -70,7 +70,6 @@ public class tank extends object {
 		for (attack a : attacks) {
 			a.draw(g);
 		}
-		// classic draws attacks and deals with visibility
 		if (!visible) {
 			return;
 		}
@@ -86,10 +85,10 @@ public class tank extends object {
 		// if low on ammo, don't shoot
 		attack a = null;
 		if (type == 0) {
-			a = new attack(bx, y, angle, velocity, 20, c);
+			a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
 			// offset shot so it starts in the middle of the tank
 		} else if (type == 1) {
-			a = new splitbomb(bx, y, angle, velocity, 180, c);
+			a = new splitbomb(bx, y, angle, velocity, 180, type, sp.weapons[1], sp);
 		}
 		attacks.add(a);
 		ammo -= 10;

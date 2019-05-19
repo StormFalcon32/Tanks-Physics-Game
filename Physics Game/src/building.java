@@ -1,5 +1,3 @@
-import java.awt.Color;
-
 public class building extends object {
 	
 	/*
@@ -14,7 +12,6 @@ public class building extends object {
 	
 	public building(int x) {
 		super(x, 390, 20, 10);
-		c = Color.ORANGE;
 		health = 20;
 	}
 	

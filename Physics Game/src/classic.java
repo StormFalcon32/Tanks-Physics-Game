@@ -26,11 +26,14 @@ public class classic {
 	int my = 0;
 	// previous mouse position
 	
+	sprites sp = new sprites();
+	// sprites
+	
 	public classic() {
-		p1 = new tank(50, 400 - 10, Color.BLUE);
+		p1 = new tank(50, 400 - 10, sp.tanks[0], sp);
 		p1.angle = 75;
 		p1.velocity = 75;
-		p2 = new tank(550, 400 - 10, Color.RED);
+		p2 = new tank(550, 400 - 10, sp.tanks[2], sp);
 		p2.angle = 105;
 		p2.velocity = 75;
 		// adds tanks and default settings

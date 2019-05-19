@@ -1,4 +1,5 @@
-import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 public class attack extends object {
 	
@@ -9,6 +10,9 @@ public class attack extends object {
 	double vx;
 	double vy;
 	// components of velocity in degrees
+	
+	int type;
+	// type of weapon
 	
 	double vI;
 	// initial velocity
@@ -29,16 +33,32 @@ public class attack extends object {
 	double aI;
 	// initial angle
 	
-	public attack(int x, int y, double a, double v, int d, Color c) {
-		super(x, y, 4, 4, c);
+	double currA;
+	// current angle
+	
+	public attack(int x, int y, double a, double v, int d, int t, BufferedImage currSp, sprites sp) {
+		super(x, y, currSp.getWidth(), currSp.getHeight(), currSp, sp);
 		sx = x;
 		sy = y;
 		aI = Math.toRadians(a);
+		currA = aI;
 		vI = v;
-		vx = v * Math.cos(-aI);
+		vx = v * Math.cos(aI);
 		vy = v * Math.sin(-aI);
 		damage = d;
+		type = t;
 		// instantiates some variables
+	}
+	
+	public void draw(Graphics g) {
+		if (!visible) {
+			return;
+		}
+		if (type == 1) {
+			g.drawImage(currSp, x - (w / 2), y - (h / 2), null);
+		} else {
+			g.drawImage(rotateImg(currSp, -currA), x - (w / 2), y - (h / 2), null);
+		}
 	}
 	
 	public void move() {

@@ -1,6 +1,8 @@
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 public class object {
 	
@@ -22,8 +24,10 @@ public class object {
 	boolean visible;
 	// defines visibility, true = visible, false = not
 	
-	Color c;
-	// color (not part of final)
+	sprites sp;
+	
+	BufferedImage currSp;
+	// current sprite
 	
 	public object(int x, int y, int w, int h) {
 		this.x = x;
@@ -34,26 +38,46 @@ public class object {
 		visible = true;
 	}
 	
-	public object(int x, int y, int w, int h, Color c) {
+	public object(int x, int y, int w, int h, BufferedImage currSp, sprites sp) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
-		this.c = c;
+		this.currSp = currSp;
+		this.sp = sp;
 		health = 0;
 		visible = true;
 	}
 	
-	public void setColor(Color c) {
-		this.c = c;
+	public BufferedImage rotateImg(BufferedImage img, double rads) {
+		
+		double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
+		int w = img.getWidth();
+		int h = img.getHeight();
+		int newWidth = (int) Math.floor(w * cos + h * sin);
+		int newHeight = (int) Math.floor(h * cos + w * sin);
+		
+		BufferedImage rotated = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = rotated.createGraphics();
+		AffineTransform at = new AffineTransform();
+		at.translate((newWidth - w) / 2, (newHeight - h) / 2);
+		
+		int x = w / 2;
+		int y = h / 2;
+		
+		at.rotate(rads, x, y);
+		g2d.setTransform(at);
+		g2d.drawImage(img, null, 0, 0);
+		g2d.dispose();
+		
+		return rotated;
 	}
 	
 	public void draw(Graphics g) {
 		if (!visible) {
 			return;
 		}
-		g.setColor(c);
-		g.fillRect(x, y, w, h);
+		g.drawImage(currSp, x, y, null);
 	}
 	
 	public void move() {

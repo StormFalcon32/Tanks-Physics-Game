@@ -1,5 +1,5 @@
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class splitbomb extends attack {
@@ -12,8 +12,8 @@ public class splitbomb extends attack {
 	boolean split;
 	// has the projectile split yet
 	
-	public splitbomb(int x, int y, double a, double v, int d, Color c) {
-		super(x, y, a, v, d, c);
+	public splitbomb(int x, int y, double a, double v, int d, int t, BufferedImage currSp, sprites sp) {
+		super(x, y, a, v, d, t, currSp, sp);
 		vertexTime = calcVertex();
 		// TODO Auto-generated constructor stub
 	}
@@ -39,9 +39,9 @@ public class splitbomb extends attack {
 		if (!split && time > vertexTime) {
 			split = true;
 			double newV = (5 * vx) / (2 * Math.sqrt(3));
-			splits.add(new attack(x, y, 0, vx / 2, damage / 3, c));
-			splits.add(new attack(x, y, 30, newV, damage / 3, c));
-			splits.add(new attack(x, y, 330, newV, damage / 3, c));
+			splits.add(new attack(x, y, 0, vx / 2, damage / 3, type, currSp, sp));
+			splits.add(new attack(x, y, 30, newV, damage / 3, type, currSp, sp));
+			splits.add(new attack(x, y, 330, newV, damage / 3, type, currSp, sp));
 		}
 	}
 	
