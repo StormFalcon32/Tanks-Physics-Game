@@ -80,7 +80,7 @@ public class tank extends object {
 		if (health <= 0)
 			visible = false;
 		// if no health, invisible
-		genTrajectory();
+		// genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
