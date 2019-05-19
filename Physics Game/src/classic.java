@@ -30,10 +30,10 @@ public class classic {
 	// sprites
 	
 	public classic() {
-		p1 = new tank(50, 400 - 10, sp.tanks[0], sp);
+		p1 = new tank(50, 400 - 10, 1, sp);
 		p1.angle = 75;
 		p1.velocity = 75;
-		p2 = new tank(550, 400 - 10, sp.tanks[2], sp);
+		p2 = new tank(550, 400 - 10, 2, sp);
 		p2.angle = 105;
 		p2.velocity = 75;
 		// adds tanks and default settings

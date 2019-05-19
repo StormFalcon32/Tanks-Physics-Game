@@ -11,6 +11,10 @@ public class attack extends object {
 	double vy;
 	// components of velocity in degrees
 	
+	double currVx;
+	double currVy;
+	// current velocity
+	
 	int type;
 	// type of weapon
 	
@@ -45,6 +49,8 @@ public class attack extends object {
 		vI = v;
 		vx = v * Math.cos(aI);
 		vy = v * Math.sin(-aI);
+		currVx = vx;
+		currVy = vy;
 		damage = d;
 		type = t;
 		// instantiates some variables
@@ -66,6 +72,9 @@ public class attack extends object {
 		count++;
 		time = (double) (count) / 20;
 		// each increment is 1/20th of a second
+		currVx = vx + ax * time;
+		currVy = vy + ay * time;
+		currA = Math.atan(-currVy / currVx);
 		x = (int) (sx + vx * time + (ax / 2 * time * time));
 		y = (int) (sy + vy * time + (ay / 2 * time * time));
 		// updates current position according to projectile motion
