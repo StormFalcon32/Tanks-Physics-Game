@@ -84,7 +84,7 @@ public class tank extends object {
 			visible = false;
 		// if no health, invisible
 		
-		genTrajectory();
+		// genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
@@ -99,12 +99,12 @@ public class tank extends object {
 		
 		super.draw(g);
 		
-		g.drawPolyline(xPoints, yPoints, 20);
+		// g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	
 	public void movePos(int dx) {
-		if (System.currentTimeMillis() - lastTime > 1000 || lastTime == -1) {
+		if (System.currentTimeMillis() - lastTime > 15000 || lastTime == -1) {
 			x += dx;
 			lastTime = System.currentTimeMillis();
 		}
@@ -115,16 +115,17 @@ public class tank extends object {
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
-		if (System.currentTimeMillis() - lastTime > 1000 || lastTime == -1) {
+		if (System.currentTimeMillis() - lastTime > 15000 || lastTime == -1) {
 			attack a = null;
 			if (type == 0) {
 				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
 				// offset shot so it starts in the middle of the tank
+				ammo -= 10;
 			} else if (type == 1) {
 				a = new splitbomb(bx, y, angle, velocity, 180, type, sp.weapons[1], sp);
+				ammo -= 30;
 			}
 			attacks.add(a);
-			ammo -= 10;
 			// adds an attack, lowers ammo
 			lastTime = System.currentTimeMillis();
 		}

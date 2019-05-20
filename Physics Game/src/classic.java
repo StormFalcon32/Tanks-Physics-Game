@@ -293,6 +293,14 @@ public class classic {
 							p2.ammo = 0;
 						}
 					}
+					if (p1.visible && ar.intersects(p1.getHitBox()) && s.count > 5) {
+						s.visible = false;
+						p1.health -= s.damage;
+						p1.health = Math.max(0, p1.health);
+						if (p1.health == 0) {
+							p1.ammo = 0;
+						}
+					}
 					// checks player 2 collision
 					// attacks disappear and deal damage
 					
@@ -332,6 +340,14 @@ public class classic {
 					p2.health = Math.max(0, p2.health);
 					if (p2.health == 0) {
 						p2.ammo = 0;
+					}
+				}
+				if (p1.visible && ar.intersects(p1.getHitBox()) && a.count > 5) {
+					a.visible = false;
+					p1.health -= a.damage;
+					p1.health = Math.max(0, p1.health);
+					if (p1.health == 0) {
+						p1.ammo = 0;
 					}
 				}
 				// checks player 2 collision
@@ -381,6 +397,14 @@ public class classic {
 							p1.ammo = 0;
 						}
 					}
+					if (p2.visible && ar.intersects(p2.getHitBox()) && s.count > 5) {
+						s.visible = false;
+						p2.health -= s.damage;
+						p2.health = Math.max(0, p2.health);
+						if (p2.health == 0) {
+							p2.ammo = 0;
+						}
+					}
 					// checks player 1 collision
 					// attacks disappear and deal damage
 					
@@ -420,6 +444,14 @@ public class classic {
 					p1.health = Math.max(0, p1.health);
 					if (p1.health == 0) {
 						p1.ammo = 0;
+					}
+				}
+				if (p2.visible && ar.intersects(p2.getHitBox()) && a.count > 5) {
+					a.visible = false;
+					p2.health -= a.damage;
+					p2.health = Math.max(0, p2.health);
+					if (p2.health == 0) {
+						p2.ammo = 0;
 					}
 				}
 				// checks player 1 collision
