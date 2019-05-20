@@ -139,6 +139,12 @@ public class main extends JPanel implements ActionListener {
 		public void keyReleased(KeyEvent e) {
 			int key = e.getKeyCode();
 			
+			if(key == KeyEvent.VK_PLUS) {
+				t.day = !t.day;
+				c.day = !c.day;
+				t.day = c.day;
+			}
+			
 			if (state.equals("title")) {
 				if (key == KeyEvent.VK_SPACE) {
 					switch (t.selection) {

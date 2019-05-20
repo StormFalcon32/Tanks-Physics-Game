@@ -158,6 +158,9 @@ public class classic {
 	
 	public void drawStats(Graphics g) {
 		
+		if(day) g.setColor(Color.BLACK);
+		else g.setColor(Color.WHITE);
+		
 		if (p1.getHitBox().contains(mx, my) && p1.visible) {
 			g.drawString("X: " + (p1.x + 5), p1.x - 20, p1.y - 30);
 			g.drawString("Y: " + (400 - p1.y - p1.h), p1.x - 20, p1.y - 10);
