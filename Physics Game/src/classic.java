@@ -45,6 +45,9 @@ public class classic {
 	int sunX;
 	int sunY;
 	// coordinates of sun/moon
+	
+	int count = 0;
+	// starting animation
 
 	public classic() {
 		p1 = new tank(45, 400 - 10, 1, sp);
@@ -96,6 +99,10 @@ public class classic {
 	}
 
 	public void draw(Graphics g) {
+		if (count <= 50) {
+			g.translate(0, (50 - count) * 4);
+			count++;
+		}
 		if ((p1.laser != null && p1.laser.visible) || (p2.laser != null && p2.laser.visible)) {
 			g.translate(0, (int) (Math.random() * 10));
 		}
@@ -127,51 +134,54 @@ public class classic {
 		g.setColor(new Color(255, 235, 205));
 		g.fillRect(0, 400, 600, 200);
 		// bottom of the map
+		
+		if (count > 50) {
 
-		g.setColor(Color.BLACK);
-		// resets text color
-
-		g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0
-				: Math.max(0, Math.round((15000 + p1.lastTime - System.currentTimeMillis()) / 1000))), 10, 430);
-		g.drawString("Health: " + p1.health, 10, 460);
-		g.drawString(" Ammo: " + p1.ammo, 120, 460);
-		g.drawString("Angle: " + p1.angle, 10, 490);
-		g.drawString("Velocity: " + p1.velocity, 10, 520);
-		g.drawString("Weapon: " + types[p1.type], 10, 550);
-		// player 1 stats
-
-		g.drawString(
-				"Cooldown: " + ((p2.lastTime == -1) ? 0
-						: Math.max(0, Math.round((15000 + p2.lastTime - System.currentTimeMillis()) / 1000))),
-				310, 430);
-		g.drawString("Health: " + p2.health, 310, 460);
-		g.drawString(" Ammo: " + p2.ammo, 420, 460);
-		g.drawString("Angle: " + p2.angle, 310, 490);
-		g.drawString("Velocity: " + p2.velocity, 310, 520);
-		g.drawString("Weapon: " + types[p2.type], 310, 550);
-		// player 2 stats
-
-		// g.drawString("Alter angle: A/D or Left/Right", 50, 50);
-		// g.drawString("Alter velocity: W/S or Up/Down", 50, 80);
-		// g.drawString("Fire: E or Space", 50, 110);
-		// g.drawString("Title: R", 50, 140);
-		//
-		// g.drawString("Welcome to the demo build", 300, 50);
-		// g.drawString("Hills and buildings can be destroyed", 300, 80);
-		// g.drawString("Buildings reload very quickly here", 300, 110);
-		// g.drawString("Destroy the hills for a surprise", 300, 140);
-		// information
-		if (p1.laser != null && p1.laser.visible) {
-			p1.laser.draw(g);
-		} else if (p1.laser != null) {
-			p1.laser = null;
+			g.setColor(Color.BLACK);
+			// resets text color
+	
+			g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0
+					: Math.max(0, Math.round((15000 + p1.lastTime - System.currentTimeMillis()) / 1000))), 10, 430);
+			g.drawString("Health: " + p1.health, 10, 460);
+			g.drawString(" Ammo: " + p1.ammo, 120, 460);
+			g.drawString("Angle: " + p1.angle, 10, 490);
+			g.drawString("Velocity: " + p1.velocity, 10, 520);
+			g.drawString("Weapon: " + types[p1.type], 10, 550);
+			// player 1 stats
+	
+			g.drawString(
+					"Cooldown: " + ((p2.lastTime == -1) ? 0
+							: Math.max(0, Math.round((15000 + p2.lastTime - System.currentTimeMillis()) / 1000))),
+					310, 430);
+			g.drawString("Health: " + p2.health, 310, 460);
+			g.drawString(" Ammo: " + p2.ammo, 420, 460);
+			g.drawString("Angle: " + p2.angle, 310, 490);
+			g.drawString("Velocity: " + p2.velocity, 310, 520);
+			g.drawString("Weapon: " + types[p2.type], 310, 550);
+			// player 2 stats
+	
+			// g.drawString("Alter angle: A/D or Left/Right", 50, 50);
+			// g.drawString("Alter velocity: W/S or Up/Down", 50, 80);
+			// g.drawString("Fire: E or Space", 50, 110);
+			// g.drawString("Title: R", 50, 140);
+			//
+			// g.drawString("Welcome to the demo build", 300, 50);
+			// g.drawString("Hills and buildings can be destroyed", 300, 80);
+			// g.drawString("Buildings reload very quickly here", 300, 110);
+			// g.drawString("Destroy the hills for a surprise", 300, 140);
+			// information
+			if (p1.laser != null && p1.laser.visible) {
+				p1.laser.draw(g);
+			} else if (p1.laser != null) {
+				p1.laser = null;
+			}
+			if (p2.laser != null && p2.laser.visible) {
+				p2.laser.draw(g);
+			} else if (p2.laser != null) {
+				p2.laser = null;
+			}
+			drawStats(g);
 		}
-		if (p2.laser != null && p2.laser.visible) {
-			p2.laser.draw(g);
-		} else if (p2.laser != null) {
-			p2.laser = null;
-		}
-		drawStats(g);
 	}
 
 	public void drawStats(Graphics g) {
