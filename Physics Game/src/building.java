@@ -24,7 +24,7 @@ public class building extends object {
 		}
 		// if the building has been destroyed, remove it for a little while
 		
-		if (System.currentTimeMillis() - reloadTime >= 5000 && x + 5 != x1 && x + 5 != x2) {
+		if (System.currentTimeMillis() - reloadTime >= 20000 && x + 5 != x1 && x + 5 != x2) {
 			health = 20;
 			visible = true;
 		}

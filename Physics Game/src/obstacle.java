@@ -9,6 +9,10 @@ public class obstacle {
 	// hill, mountain, silohill
 	
 	int health = 80;
+	// if silohill
+	
+	boolean visible = true;
+	// for silohill
 	
 	int[] xpoints;
 	int[] ypoints;
@@ -21,18 +25,28 @@ public class obstacle {
 	Polygon hitbox;
 	// hitbox
 	
-	line[] lines;
-	// lines (easy calculation for tank movement)
-	// not in use for now (tanks just teleport instead of move)
+	silo silo;
 	
 	int[] xToIndex = new int[600];
 	// xToIndex[i] is the index of the point who's absolute x coordinate is i
 	
-	public obstacle(String type, int x, int w) {
+	public obstacle(String type, int x, int w, silo s) {
 		this.type = type;
 		startX = x;
 		width = w;
+		silo = s;
 		generate();
+	}
+	
+	public void move() {
+		if (health <= 0 && type.equals("silohill")) {
+			visible = false;
+			for (int x = 0; x != xpoints.length; x++) {
+				ypoints[x] = 400;
+			}
+			hitbox = new Polygon(xpoints, ypoints, xpoints.length);
+			silo.move();
+		}
 	}
 	
 	public void generate() {
@@ -42,10 +56,6 @@ public class obstacle {
 			
 			int numPoints = (width / 50) + 3;
 			// number of points
-			int numLines = width / 50;
-			// number of line segments
-			
-			lines = new line[numLines];
 			
 			xpoints = new int[numPoints];
 			ypoints = new int[numPoints];
@@ -77,12 +87,6 @@ public class obstacle {
 			ypoints[ypoints.length - 1] = 400;
 			// sets the edges of obstacle to be at the bottom
 			
-			// for (int x = 1; x != xpoints.length; x++) {
-			// double slope = (ypoints[x] - ypoints[x - 1]) / (xpoints[x] - xpoints[x - 1]);
-			// lines[x - 1] = new line(slope, xpoints[x - 1]);
-			// }
-			// // calculate the lines
-			
 			hitbox = new Polygon(xpoints, ypoints, numPoints);
 			// creates hitbox
 		} else {
@@ -91,10 +95,6 @@ public class obstacle {
 			
 			int numPoints = (width / 50) + 1;
 			// number of points
-			int numLines = width / 50;
-			// number of line segments
-			
-			lines = new line[numLines];
 			
 			xpoints = new int[numPoints];
 			ypoints = new int[numPoints];
@@ -104,18 +104,12 @@ public class obstacle {
 			for (int x = 0; x != xpoints.length; x++) {
 				xToIndex[50 * x + startX] = x;
 				xpoints[x] = 50 * x + startX;
-				ypoints[x] = 400 - (int) (Math.random() * ((type.equals("mountain")) ? 150 : 50));
+				ypoints[x] = 400 - (int) (Math.random() * 50 + 32);
 			}
 			
 			ypoints[0] = 400;
 			ypoints[ypoints.length - 1] = 400;
 			// sets the edges of obstacle to be at the bottom
-			
-			for (int x = 1; x != xpoints.length; x++) {
-				double slope = (ypoints[x] - ypoints[x - 1]) / (xpoints[x] - xpoints[x - 1]);
-				lines[x - 1] = new line(slope, xpoints[x - 1]);
-			}
-			// calculate the lines
 			
 			hitbox = new Polygon(xpoints, ypoints, numPoints);
 			// creates hitbox
@@ -123,21 +117,13 @@ public class obstacle {
 	}
 	
 	public void draw(Graphics g) {
+		if (type.equals("silohill")) {
+			silo.draw(g);
+		}
+		if (!visible) {
+			return;
+		}
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillPolygon(hitbox);
-	}
-}
-
-class line {
-	double slope;
-	int x1;
-	
-	public line(double s, int x) {
-		slope = s;
-		x1 = x;
-	}
-	
-	public int calc(int x) {
-		return (int) (slope * (x - x1));
 	}
 }

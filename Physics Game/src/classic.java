@@ -35,6 +35,9 @@ public class classic {
 	boolean day;
 	// day or night
 	
+	int gameState = 0;
+	// is the game finished
+	
 	int[] yPoints = { 250, 200, 170, 155, 150, 155, 170, 200, 250 };
 	int[] xPoints = { 100, 150, 200, 250, 300, 350, 400, 450, 500 };
 	// trajectory of sun/moon
@@ -63,9 +66,9 @@ public class classic {
 		// determine weather randomly
 		
 		int random = ((int) (Math.random() * 2)) + 4;
-		obstacles.add(new obstacle("silohill", random * 50, 150));
-		obstacles.add(new obstacle("hill", 100, random * 50 - 100));
-		obstacles.add(new obstacle("mountain", random * 50 + 150, 500 - (random * 50 + 150)));
+		obstacles.add(new obstacle("silohill", random * 50, 150, new silo(random * 50 + 75 - 8, 400 - 32, sp.buildings[1], sp)));
+		obstacles.add(new obstacle("hill", 100, random * 50 - 100, null));
+		obstacles.add(new obstacle("mountain", random * 50 + 150, 500 - (random * 50 + 150), null));
 		// adds obstacles randomly
 		
 		buildings.add(new building(140, obstacles.get(1).ypoints[obstacles.get(1).xToIndex[150]] - 10, sp.buildings[0], sp));
@@ -78,6 +81,10 @@ public class classic {
 		p2.move();
 		// moves players
 		
+		for (obstacle o : obstacles) {
+			o.move();
+		}
+		// moves obstacles
 		for (building b : buildings)
 			b.move(p1.x, p2.x);
 		// moves buildings
@@ -93,6 +100,16 @@ public class classic {
 		p1.draw(g);
 		p2.draw(g);
 		// draws the players
+		
+		if (!p1.visible && (gameState == 0 || gameState == 1)) {
+			g.drawImage(sp.victories[1], 150, 200, null);
+			gameState = 1;
+		}
+		if (!p2.visible && (gameState == 0 || gameState == 2)) {
+			g.drawImage(sp.victories[0], 150, 200, null);
+			gameState = 2;
+		}
+		// win screen
 		
 		for (obstacle o : obstacles)
 			o.draw(g);
@@ -148,6 +165,12 @@ public class classic {
 		if (p2.getHitBox().contains(mx, my) && p2.visible) {
 			g.drawString("X: " + (p2.x + 5), p2.x - 20, p2.y - 30);
 			g.drawString("Y: " + (400 - p2.y - p2.h), p2.x - 20, p2.y - 10);
+		}
+		obstacle o = obstacles.get(0);
+		silo s = o.silo;
+		if (!o.visible && s.getHitBox().contains(mx, my) && s.visible) {
+			g.drawString("X: " + (s.x + 8), s.x - 20, s.y - 30);
+			g.drawString("Y: " + (400 - s.y - s.h), s.x - 20, s.y - 10);
 		}
 		
 		for (building b : buildings) {
@@ -235,13 +258,21 @@ public class classic {
 	
 	public void collision() {
 		for (attack a : p1.attacks) {
-			if (a instanceof splitbomb) {
+			if (a instanceof splitbomb && ((splitbomb) a).split) {
 				for (attack s : ((splitbomb) a).splits) {
 					Rectangle ar = s.getHitBox();
 					
 					for (obstacle o : obstacles) {
-						if (o.hitbox.intersects(ar)) {
+						if (o.hitbox.intersects(ar) && o.visible && s.count > 5) {
 							s.visible = false;
+							o.health -= s.damage;
+							o.health = Math.max(0, o.health);
+						}
+						silo silo = o.silo;
+						if (!o.visible && silo != null && s.visible && silo.getHitBox().intersects(ar)) {
+							s.visible = false;
+							silo.health -= s.damage;
+							silo.health = Math.max(0, silo.health);
 						}
 					}
 					for (building b : buildings) {
@@ -273,8 +304,16 @@ public class classic {
 				Rectangle ar = a.getHitBox();
 				
 				for (obstacle o : obstacles) {
-					if (o.hitbox.intersects(ar)) {
+					if (o.hitbox.intersects(ar) && o.visible && a.count > 5) {
 						a.visible = false;
+						o.health -= a.damage;
+						o.health = Math.max(0, o.health);
+					}
+					silo silo = o.silo;
+					if (!o.visible && silo != null && a.visible && silo.getHitBox().intersects(ar)) {
+						a.visible = false;
+						silo.health -= a.damage;
+						silo.health = Math.max(0, silo.health);
 					}
 				}
 				for (building b : buildings) {
@@ -307,13 +346,21 @@ public class classic {
 		// ---- literally the same thing but for player 2 ----//
 		
 		for (attack a : p2.attacks) {
-			if (a instanceof splitbomb) {
+			if (a instanceof splitbomb && ((splitbomb) a).split) {
 				for (attack s : ((splitbomb) a).splits) {
 					Rectangle ar = s.getHitBox();
 					
 					for (obstacle o : obstacles) {
-						if (o.hitbox.intersects(ar)) {
+						if (o.hitbox.intersects(ar) && o.visible && s.count > 5) {
 							s.visible = false;
+							o.health -= s.damage;
+							o.health = Math.max(0, o.health);
+						}
+						silo silo = o.silo;
+						if (!o.visible && silo != null && s.visible && silo.getHitBox().intersects(ar)) {
+							s.visible = false;
+							silo.health -= s.damage;
+							silo.health = Math.max(0, silo.health);
 						}
 					}
 					for (building b : buildings) {
@@ -345,8 +392,16 @@ public class classic {
 				Rectangle ar = a.getHitBox();
 				
 				for (obstacle o : obstacles) {
-					if (o.hitbox.intersects(ar)) {
+					if (o.hitbox.intersects(ar) && o.visible && a.count > 5) {
 						a.visible = false;
+						o.health -= a.damage;
+						o.health = Math.max(0, o.health);
+					}
+					silo silo = o.silo;
+					if (!o.visible && silo != null && a.visible && silo.getHitBox().intersects(ar)) {
+						a.visible = false;
+						silo.health -= a.damage;
+						silo.health = Math.max(0, silo.health);
 					}
 				}
 				for (building b : buildings) {

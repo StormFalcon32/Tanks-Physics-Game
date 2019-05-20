@@ -25,10 +25,6 @@ public class title {
 		sunY = y;
 	}
 	
-	public void move() {
-		
-	}
-	
 	public void draw(Graphics g) {
 		g.setFont(sp.fonts[3]);
 		g.setColor((day) ? Color.BLACK : Color.WHITE);
@@ -40,7 +36,9 @@ public class title {
 		g.drawString("Help", 125, 350);
 		g.drawString("Credits", 125, 400);
 		g.drawString(">", 100, selection * 50 + 300);
+		g.setFont(sp.fonts[0]);
 		drawCenteredString(g, "[Space to Continue]", new Rectangle(0, 350, 600, 250), sp.fonts[0]);
+		g.drawString("R to go Back", 350, 325);
 	}
 	
 	public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {

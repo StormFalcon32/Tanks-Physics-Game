@@ -19,6 +19,9 @@ public class sprites {
 	BufferedImage[] background = new BufferedImage[4];
 	// Day, sun, night, moon
 	
+	BufferedImage[] victories = new BufferedImage[2];
+	// Blue win, red win
+	
 	BufferedImage laser;
 	// laser
 	
@@ -70,6 +73,15 @@ public class sprites {
 		for (int i = 0; i < 4; i++) {
 			try {
 				background[i] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Sprites/Background" + i + ".png"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i = 0; i < 2; i++) {
+			try {
+				victories[i] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Sprites/Victory" + i + ".png"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

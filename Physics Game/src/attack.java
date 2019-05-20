@@ -41,7 +41,7 @@ public class attack extends object {
 	// current angle
 	
 	public attack(int x, int y, double a, double v, int d, int t, BufferedImage currSp, sprites sp) {
-		super(x, y, currSp.getWidth(), currSp.getHeight(), currSp, sp);
+		super(x, y, 5, 5, currSp, sp);
 		sx = x;
 		sy = y;
 		aI = Math.toRadians(a);
@@ -78,7 +78,6 @@ public class attack extends object {
 		x = (int) (sx + vx * time + (ax / 2 * time * time));
 		y = (int) (sy + vy * time + (ay / 2 * time * time));
 		// updates current position according to projectile motion
-		System.out.println(x + " " + y);
 	}
 	
 }

@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -38,6 +37,8 @@ public class main extends JPanel implements ActionListener {
 	
 	classic c = new classic();
 	title t = new title(c.day, c.sunX, c.sunY);
+	tutorial h = new tutorial(c.day, c.sunX, c.sunY);
+	credits cr = new credits(c.day, c.sunX, c.sunY);
 	// game components
 	
 	// ---- CONSTRUCTOR ----//
@@ -51,8 +52,6 @@ public class main extends JPanel implements ActionListener {
 		setFocusable(true);
 		setBackground(Color.WHITE);
 		// sets background color to gray
-		setFont(new Font("Arial", Font.PLAIN, 16));
-		// changes font (for reference, the default font is Lucida Console Plain 14)
 		timer = new Timer(DELAY, this);
 		timer.start();
 		// creates and starts the timer
@@ -84,7 +83,12 @@ public class main extends JPanel implements ActionListener {
 		if (state.equals("classic")) {
 			c.draw(g);
 		}
-		
+		if (state.equals("tutorial")) {
+			h.draw(g);
+		}
+		if (state.equals("credits")) {
+			cr.draw(g);
+		}
 	}
 	
 	// ---- MOVEMENT ----//
@@ -99,9 +103,6 @@ public class main extends JPanel implements ActionListener {
 		 * moves the game every step moves components based on the game state (variable "state")
 		 */
 		
-		if (state.equals("title")) {
-			t.move();
-		}
 		if (state.equals("classic")) {
 			c.move();
 		}
@@ -174,7 +175,7 @@ public class main extends JPanel implements ActionListener {
 				if (key == KeyEvent.VK_F) {
 					c.p1.switchW();
 				}
-				if (key == KeyEvent.VK_H) {
+				if (key == KeyEvent.VK_B) {
 					c.p2.switchW();
 				}
 				// weapon switch
@@ -209,8 +210,15 @@ public class main extends JPanel implements ActionListener {
 					c.p2.up = false;
 				if (key == KeyEvent.VK_DOWN)
 					c.p2.down = false;
+			} else {
+				if (key == KeyEvent.VK_R) {
+					state = "title";
+					c = new classic();
+					t = new title(c.day, c.sunX, c.sunY);
+					h = new tutorial(c.day, c.sunX, c.sunY);
+					cr = new credits(c.day, c.sunX, c.sunY);
+				}
 			}
-			
 		}
 	}
 	

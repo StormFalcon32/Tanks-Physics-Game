@@ -94,7 +94,7 @@ public class tank extends object {
 			return;
 		}
 		double rads = Math.toRadians(-angle);
-		g.drawImage(rotateImg(barrelSp, rads), (int) (x + 4.5 * Math.cos(rads) + ((player == 1) ? 1 : 3)), (int) (y + 4.5 * Math.sin(rads) + 2), null);
+		g.drawImage(rotateImg(barrelSp, rads), (int) (x + 4.5 * Math.cos(rads) + ((player == 1) ? 2 : 3)), (int) (y + 4.5 * Math.sin(rads) + 2), null);
 		// draw barrels (don't try and understand it, just accept that it works)
 		
 		super.draw(g);
@@ -104,7 +104,7 @@ public class tank extends object {
 	}
 	
 	public void movePos(int dx) {
-		if (System.currentTimeMillis() - lastTime > 15000 || lastTime == -1) {
+		if (System.currentTimeMillis() - lastTime > 1000 || lastTime == -1) {
 			x += dx;
 			lastTime = System.currentTimeMillis();
 		}
@@ -115,7 +115,7 @@ public class tank extends object {
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
-		if (System.currentTimeMillis() - lastTime > 30000 || lastTime == -1) {
+		if (System.currentTimeMillis() - lastTime > 1000 || lastTime == -1) {
 			attack a = null;
 			if (type == 0) {
 				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
