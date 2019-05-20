@@ -30,12 +30,18 @@ public class obstacle {
 	int[] xToIndex = new int[600];
 	// xToIndex[i] is the index of the point who's absolute x coordinate is i
 	
+	Color c;
+	// color
+	
 	public obstacle(String type, int x, int w, silo s) {
 		this.type = type;
 		startX = x;
 		width = w;
 		silo = s;
 		generate();
+		int num = (int)(Math.random()*2);
+		if(num == 0) c = Color.LIGHT_GRAY;
+		else c = Color.GREEN;
 	}
 	
 	public void move() {
@@ -123,7 +129,7 @@ public class obstacle {
 		if (!visible) {
 			return;
 		}
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(c);
 		g.fillPolygon(hitbox);
 	}
 }

@@ -115,6 +115,8 @@ public class tank extends object {
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
+		if (ammo < 30 && type == 1)
+			return;
 		if (System.currentTimeMillis() - lastTime > 15000 || lastTime == -1) {
 			attack a = null;
 			if (type == 0) {
