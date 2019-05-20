@@ -78,7 +78,7 @@ public class attack extends object {
 		x = (int) (sx + vx * time + (ax / 2 * time * time));
 		y = (int) (sy + vy * time + (ay / 2 * time * time));
 		// updates current position according to projectile motion
-		
+		System.out.println(x + " " + y);
 	}
 	
 }

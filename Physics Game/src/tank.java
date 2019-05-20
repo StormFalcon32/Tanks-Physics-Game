@@ -93,9 +93,8 @@ public class tank extends object {
 		if (!visible) {
 			return;
 		}
-		double rads = (player == 1) ? Math.toRadians(-angle) : Math.toRadians(180 - angle);
-		g.drawImage(rotateImg(barrelSp, rads), (int) (x + ((player == 1) ? 4 * Math.cos(-rads) + 3 : -4 * Math.cos(-rads) + 4)),
-				(int) (y - ((player == 1) ? 8 * Math.sin(-rads) : -8 * Math.sin(-rads))) + 4, null);
+		double rads = Math.toRadians(-angle);
+		g.drawImage(rotateImg(barrelSp, rads), (int) (x + 4.5 * Math.cos(rads) + ((player == 1) ? 1 : 3)), (int) (y + 4.5 * Math.sin(rads) + 2), null);
 		// draw barrels (don't try and understand it, just accept that it works)
 		
 		super.draw(g);
@@ -104,12 +103,16 @@ public class tank extends object {
 		// draws the trajectory
 	}
 	
+	public void movePos() {
+		
+	}
+	
 	public void shoot() {
 		bx = x + 5;
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
-		if (System.currentTimeMillis() - lastTime > 30000 || lastTime == -1) {
+		if (System.currentTimeMillis() - lastTime > 1000 || lastTime == -1) {
 			attack a = null;
 			if (type == 0) {
 				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);

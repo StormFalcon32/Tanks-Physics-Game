@@ -109,14 +109,14 @@ public class classic {
 		g.setColor(Color.BLACK);
 		// resets text color
 		
-		g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0 : Math.max(0, (30000 + p1.lastTime - System.currentTimeMillis()) / 1000)), 10, 430);
+		g.drawString("Reload: " + ((p1.lastTime == -1) ? 0 : Math.max(0, Math.round((30000 + p1.lastTime - System.currentTimeMillis()) / 1000))), 10, 430);
 		g.drawString("Health: " + p1.health + " Ammo: " + p1.ammo, 10, 460);
 		g.drawString("Angle: " + p1.angle, 10, 490);
 		g.drawString("Velocity: " + p1.velocity, 10, 520);
 		g.drawString("Weapon: " + types[p1.type], 10, 550);
 		// player 1 stats
 		
-		g.drawString("Cooldown: " + ((p2.lastTime == -1) ? 0 : Math.max(0, (30000 + p2.lastTime - System.currentTimeMillis()) / 1000)), 310, 430);
+		g.drawString("Reload: " + ((p2.lastTime == -1) ? 0 : Math.max(0, Math.round((30000 + p2.lastTime - System.currentTimeMillis()) / 1000))), 310, 430);
 		g.drawString("Health: " + p2.health + " Ammo: " + p2.ammo, 310, 460);
 		g.drawString("Angle: " + p2.angle, 310, 490);
 		g.drawString("Velocity: " + p2.velocity, 310, 520);
@@ -176,6 +176,7 @@ public class classic {
 				}
 				if (good) {
 					p1.x -= 50;
+					p1.movePos();
 				}
 			} else {
 				boolean good = true;
@@ -189,6 +190,7 @@ public class classic {
 				}
 				if (good) {
 					p1.x += 50;
+					p1.movePos();
 				}
 			}
 		} else {
@@ -204,6 +206,7 @@ public class classic {
 				}
 				if (good) {
 					p2.x -= 50;
+					p2.movePos();
 				}
 			} else {
 				boolean good = true;
@@ -217,6 +220,7 @@ public class classic {
 				}
 				if (good) {
 					p2.x += 50;
+					p2.movePos();
 				}
 			}
 		}
