@@ -103,8 +103,11 @@ public class tank extends object {
 		// draws the trajectory
 	}
 	
-	public void movePos() {
-		
+	public void movePos(int dx) {
+		if (System.currentTimeMillis() - lastTime > 15000 || lastTime == -1) {
+			x += dx;
+			lastTime = System.currentTimeMillis();
+		}
 	}
 	
 	public void shoot() {
@@ -112,7 +115,7 @@ public class tank extends object {
 		if (ammo <= 0)
 			return;
 		// if low on ammo, don't shoot
-		if (System.currentTimeMillis() - lastTime > 1000 || lastTime == -1) {
+		if (System.currentTimeMillis() - lastTime > 30000 || lastTime == -1) {
 			attack a = null;
 			if (type == 0) {
 				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
