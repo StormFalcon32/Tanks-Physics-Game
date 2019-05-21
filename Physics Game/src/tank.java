@@ -71,11 +71,11 @@ public class tank extends object {
 		
 		for (int x = 0; x != attacks.size(); x++) {
 			if (!attacks.get(x).visible) {
-				if (attacks.get(x).laser) {
+				if (attacks.get(x).type == 3) {
 					laser = new laser(attacks.get(x).x, sp);
 					attacks.remove(x);
 					x--;
-				} else {
+				} else if (attacks.get(x).impact == false && attacks.get(x).type == 3) {
 					attacks.remove(x);
 					x--;
 				}
@@ -107,7 +107,7 @@ public class tank extends object {
 			visible = false;
 		// if no health, invisible
 		
-		genTrajectory();
+		// genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
@@ -121,8 +121,7 @@ public class tank extends object {
 		// draw barrels (don't try and understand it, just accept that it works)
 		
 		super.draw(g);
-		
-		g.drawPolyline(xPoints, yPoints, 20);
+		// g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	
@@ -140,21 +139,29 @@ public class tank extends object {
 		// if low on ammo, don't shoot
 		if (ammo < 30 && type == 1)
 			return;
+		if (ammo < 60 && type == 2) {
+			return;
+		}
 		if (System.currentTimeMillis() - lastTime > cooldownTime || lastTime == -1) {
 			attack a = null;
 			if (type == 0) {
-				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[0], sp);
+				a = new attack(bx, y, angle, velocity, 20, type, sp.weapons[type], sp);
 				// offset shot so it starts in the middle of the tank
 				ammo -= 10;
 			} else if (type == 1) {
-				a = new splitbomb(bx, y, angle, velocity, 180, type, sp.weapons[1], sp);
+				a = new splitbomb(bx, y, angle, velocity, 180, type, sp.weapons[type], sp);
 				ammo -= 30;
+				// blue bird
 			} else if (type == 2) {
-				a = new attack(bx, y, angle, velocity, 0, type, sp.weapons[1], sp);
-				a.laser = true;
+				a = new attack(bx, y, angle, velocity, 0, type, sp.weapons[type], sp);
+				ammo -= 60;
+				// pierce
+			} else if (type == 3) {
+				a = new attack(bx, y, angle, velocity, 0, type, sp.weapons[type], sp);
 				type = 0;
 				hitSilo = false;
 				ammo = 0;
+				// laser
 			}
 			attacks.add(a);
 			// adds an attack, lowers ammo
@@ -165,9 +172,9 @@ public class tank extends object {
 	
 	public void switchW() {
 		if (hitSilo) {
-			type = (type + 1) % 3;
+			type = (type + 1) % 4;
 		} else {
-			type = (type + 1) % 2;
+			type = (type + 1) % 3;
 		}
 	}
 	

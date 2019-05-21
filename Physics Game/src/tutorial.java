@@ -21,16 +21,12 @@ public class tutorial {
 		sunY = y;
 	}
 	
-	public void move() {
-		
-	}
-	
 	public void draw(Graphics g) {
 		g.setFont(sp.fonts[3]);
 		g.setColor((day) ? Color.BLACK : Color.WHITE);
 		g.drawImage((day) ? sp.background[0] : sp.background[2], 0, 0, null);
 		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY + 200, null);
-		g.drawString("Tutorial", 100, 50);
+		g.drawString("Controls", 100, 50);
 		g.setFont(sp.fonts[1]);
 		g.drawString("Player 1: ", 125, 100);
 		g.drawString("Player 2: ", 375, 100);

@@ -39,9 +39,9 @@ public class splitbomb extends attack {
 		if (!split && time > vertexTime) {
 			split = true;
 			double newV = (5 * vx) / (2 * Math.sqrt(3));
-			splits.add(new attack(x, y, 0, vx / 2, damage / 3, type, currSp, sp));
-			splits.add(new attack(x, y, 30, newV, damage / 3, type, currSp, sp));
-			splits.add(new attack(x, y, 330, newV, damage / 3, type, currSp, sp));
+			splits.add(new attack(x, y, 0, vx / 2, getDamage() / 3, type, currSp, sp));
+			splits.add(new attack(x, y, 30, newV, getDamage() / 3, type, currSp, sp));
+			splits.add(new attack(x, y, 330, newV, getDamage() / 3, type, currSp, sp));
 		}
 	}
 	

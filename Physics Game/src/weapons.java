@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class credits {
+public class weapons {
 	sprites sp = new sprites();
 	// sprites
 	
@@ -15,7 +15,7 @@ public class credits {
 	int selection = 0;
 	// what is being selected
 	
-	public credits(boolean d, int x, int y) {
+	public weapons(boolean d, int x, int y) {
 		day = d;
 		sunX = x;
 		sunY = y;
@@ -26,20 +26,18 @@ public class credits {
 		g.setColor((day) ? Color.BLACK : Color.WHITE);
 		g.drawImage((day) ? sp.background[0] : sp.background[2], 0, 0, null);
 		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY + 200, null);
-		g.drawString("Credits", 100, 50);
+		g.drawString("Weapons", 100, 50);
 		g.setFont(sp.fonts[1]);
-		g.drawString("Ben", 125, 200);
-		g.drawString("Joey", 125, 250);
-		g.drawString("Lohith", 125, 300);
-		g.drawString("Jason", 125, 350);
-		g.drawString("Khalid", 125, 400);
-		g.drawString("Preet", 125, 450);
+		g.drawString("Bullet", 125, 200);
+		g.drawString("Split", 125, 250);
+		g.drawString("Pierce", 125, 500);
 		g.setFont(sp.fonts[0]);
-		g.drawString("Lead Programmer + Art", 275, 200);
-		g.drawString("Engine Programmer", 275, 250);
-		g.drawString("Math + Design", 275, 300);
-		g.drawString("Lead Artist", 275, 350);
-		g.drawString("Art + Design + Slides", 275, 400);
-		g.drawString("Design + Slides", 275, 450);
+		g.drawString("20 damage", 275, 200);
+		g.drawString("180 damage (60 per piece)", 275, 250);
+		g.drawString("Splits into 3 at the vertex:", 275, 300);
+		g.drawString("+30 degrees 5Vx / (2sqrt3)", 275, 350);
+		g.drawString("0 degrees Vx / 2", 275, 400);
+		g.drawString("-30 degrees 5Vx / (2sqrt3)", 275, 450);
+		g.drawString("Damage is Vf / 10", 275, 500);
 	}
 }

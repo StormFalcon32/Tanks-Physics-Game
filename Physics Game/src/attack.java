@@ -2,49 +2,50 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class attack extends object {
-
+	
 	int sx;
 	int sy;
 	// starting positions
-
+	
 	double vx;
 	double vy;
 	// components of velocity in degrees
-
+	
 	double currVx;
 	double currVy;
 	// current velocity
-
+	
 	int type;
-	// type of weapon
-
+	// Bullet, splitbomb, armor pierce, laser
+	
 	double vI;
 	// initial velocity
-
+	
 	double ax = 0;
 	double ay = 10;
 	// directional acceleration, default ay 10
-
-	int damage = 20;
-	// attack damage, default 10
-
+	
+	private int damage = 20;
+	// attack damage, default 20
+	
 	double time = 0;
 	// current time in seconds, default 0
-
+	
 	int count = 0;
 	// counter, every 5 increments = 1 second
-
+	
 	double aI;
 	// initial angle
-
+	
 	double currA;
 	// current angle
-
-	boolean laser = false;
-	// is this a laser shot
-
+	
+	boolean impact = false;
+	int afterImpact = 0;
+	// has the bomb hit the ground
+	
 	public attack(int x, int y, double a, double v, int d, int t, BufferedImage currSp, sprites sp) {
-		super(x, y, 5, 5, currSp, sp);
+		super(x, y, currSp.getWidth(), currSp.getHeight(), currSp, sp);
 		sx = x;
 		sy = y;
 		aI = Math.toRadians(a);
@@ -58,7 +59,7 @@ public class attack extends object {
 		type = t;
 		// instantiates some variables
 	}
-
+	
 	public void draw(Graphics g) {
 		if (!visible || count < 5) {
 			return;
@@ -69,9 +70,9 @@ public class attack extends object {
 			g.drawImage(rotateImg(currSp, -currA), x - (w / 2), y - (h / 2), null);
 		}
 	}
-
+	
 	public void move() {
-
+		
 		count++;
 		time = (double) (count) / 20;
 		// each increment is 1/20th of a second
@@ -82,5 +83,11 @@ public class attack extends object {
 		y = (int) (sy + vy * time + (ay / 2 * time * time));
 		// updates current position according to projectile motion
 	}
-
+	
+	public int getDamage() {
+		if (type == 2) {
+			return (int) (Math.sqrt(currVx * currVx + currVy * currVy) / 10);
+		}
+		return damage;
+	}
 }

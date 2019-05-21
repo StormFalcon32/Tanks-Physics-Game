@@ -10,8 +10,8 @@ public class sprites {
 	BufferedImage[] tanks = new BufferedImage[4];
 	// Blue tank, blue barrel, red tank, red barrel
 	
-	BufferedImage[] weapons = new BufferedImage[2];
-	// Bullet, split
+	BufferedImage[] weapons = new BufferedImage[4];
+	// Bullet, split, armor pierce, laser
 	
 	BufferedImage[] buildings = new BufferedImage[2];
 	// Ammo building, silo
@@ -52,7 +52,7 @@ public class sprites {
 			}
 		}
 		
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 4; i++) {
 			try {
 				weapons[i] = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Sprites/Weapon" + i + ".png"));
 			} catch (IOException e) {

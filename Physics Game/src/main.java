@@ -38,6 +38,7 @@ public class main extends JPanel implements ActionListener {
 	classic c = new classic();
 	title t = new title(c.day, c.sunX, c.sunY);
 	tutorial h = new tutorial(c.day, c.sunX, c.sunY);
+	weapons wp = new weapons(c.day, c.sunX, c.sunY);
 	credits cr = new credits(c.day, c.sunX, c.sunY);
 	// game components
 	
@@ -85,6 +86,9 @@ public class main extends JPanel implements ActionListener {
 		}
 		if (state.equals("tutorial")) {
 			h.draw(g);
+		}
+		if (state.equals("weapons")) {
+			wp.draw(g);
 		}
 		if (state.equals("credits")) {
 			cr.draw(g);
@@ -149,6 +153,9 @@ public class main extends JPanel implements ActionListener {
 						state = "tutorial";
 						break;
 					case 2:
+						state = "weapons";
+						break;
+					case 3:
 						state = "credits";
 						break;
 					}
@@ -156,11 +163,11 @@ public class main extends JPanel implements ActionListener {
 				if (key == KeyEvent.VK_W)
 					t.selection = Math.max(0, t.selection - 1);
 				if (key == KeyEvent.VK_S)
-					t.selection = Math.min(2, t.selection + 1);
+					t.selection = Math.min(3, t.selection + 1);
 				if (key == KeyEvent.VK_UP)
 					t.selection = Math.max(0, t.selection - 1);
 				if (key == KeyEvent.VK_DOWN)
-					t.selection = Math.min(2, t.selection + 1);
+					t.selection = Math.min(3, t.selection + 1);
 			} else if (state.equals("classic")) {
 				if (key == KeyEvent.VK_SHIFT && e.getKeyLocation() == KeyEvent.KEY_LOCATION_LEFT)
 					c.p1.shoot();
@@ -216,6 +223,7 @@ public class main extends JPanel implements ActionListener {
 					c = new classic();
 					t = new title(c.day, c.sunX, c.sunY);
 					h = new tutorial(c.day, c.sunX, c.sunY);
+					wp = new weapons(c.day, c.sunX, c.sunY);
 					cr = new credits(c.day, c.sunX, c.sunY);
 				}
 			}
