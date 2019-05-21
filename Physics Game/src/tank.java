@@ -50,7 +50,7 @@ public class tank extends object {
 	// timer for ammo regen
 	
 	int cooldownTime = 15000;
-	int regenTime = 15000;
+	int regenTime = 20000;
 	// constants for cooldown and ammo regen
 	
 	boolean viewTrajectory = false;
@@ -121,7 +121,8 @@ public class tank extends object {
 		super.draw(g);
 		
 		g.setColor(Color.WHITE);
-		if(viewTrajectory) g.drawPolyline(xPoints, yPoints, xPoints.length);
+		if (viewTrajectory)
+			g.drawPolyline(xPoints, yPoints, xPoints.length);
 		// draws the trajectory if visible
 	}
 	
@@ -183,7 +184,7 @@ public class tank extends object {
 		bx = x + 5;
 		double vx = velocity * Math.cos(Math.toRadians(-angle));
 		double vy = velocity * Math.sin(Math.toRadians(-angle));
-	
+		
 		double coordX = bx;
 		double coordY = y;
 		int z = 0;

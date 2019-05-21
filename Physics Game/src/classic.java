@@ -525,17 +525,16 @@ public class classic {
 	}
 	
 	public void changeLoad() {
-		if(p1.regenTime == 15000) {
-			p1.regenTime = 5000;
-			p1.ammoTime = 5000;
-			p2.regenTime = 5000;
-			p2.ammoTime = 5000;
-		}
-		else {
-			p1.regenTime = 15000;
-			p1.ammoTime = 15000;
-			p2.regenTime = 15000;
-			p2.ammoTime = 15000;
+		if (p1.cooldownTime == 15000) {
+			p1.regenTime = 10000;
+			p1.cooldownTime = 5000;
+			p2.regenTime = 10000;
+			p2.cooldownTime = 5000;
+		} else {
+			p1.regenTime = 20000;
+			p1.cooldownTime = 15000;
+			p2.regenTime = 20000;
+			p2.cooldownTime = 15000;
 		}
 	}
 	

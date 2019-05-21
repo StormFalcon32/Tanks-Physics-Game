@@ -17,12 +17,15 @@ public class menu {
 	
 	classic c;
 	// game
-
+	
 	boolean load;
 	// fast cooldown and regen
 	
 	boolean trajectory;
 	// drawing of trajectories
+	
+	String prevState = "";
+	// previous state
 	
 	public menu(boolean d, int x, int y, classic c) {
 		day = d;
@@ -38,12 +41,16 @@ public class menu {
 		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY + 200, null);
 		g.drawString("Menu", 100, 50);
 		g.setFont(sp.fonts[1]);
-		if(load) g.drawString("Faster Gameplay (ON)", 125, 200);
-		else g.drawString("Faster Gameplay (OFF)", 125, 200);
-		if(trajectory) g.drawString("Draw Trajectories (ON)", 125, 300);
-		else g.drawString("Draw Trajectories (OFF)", 125, 300);
+		if (load)
+			g.drawString("Faster Gameplay (ON)", 125, 200);
+		else
+			g.drawString("Faster Gameplay (OFF)", 125, 200);
+		if (trajectory)
+			g.drawString("Draw Trajectories (ON)", 125, 300);
+		else
+			g.drawString("Draw Trajectories (OFF)", 125, 300);
 		g.setFont(sp.fonts[0]);
-		g.drawString("Press O", 275, 250);
-		g.drawString("Press P", 275, 350);
+		g.drawString("Press 1", 275, 250);
+		g.drawString("Press 2", 275, 350);
 	}
 }

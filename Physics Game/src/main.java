@@ -175,12 +175,14 @@ public class main extends JPanel implements ActionListener {
 					t.selection = Math.max(0, t.selection - 1);
 				if (key == KeyEvent.VK_DOWN)
 					t.selection = Math.min(4, t.selection + 1);
+				if (key == KeyEvent.VK_P)
+					state = "menu";
 			} else if (state.equals("classic")) {
 				if (key == KeyEvent.VK_SHIFT && e.getKeyLocation() == KeyEvent.KEY_LOCATION_LEFT)
 					c.p1.shoot();
 				if (key == KeyEvent.VK_SPACE)
 					c.p2.shoot();
-				if (key == KeyEvent.VK_R) {
+				if (key == KeyEvent.VK_ESCAPE) {
 					state = "title";
 					c = new classic();
 					t = new title(c.day, c.sunX, c.sunY);
@@ -188,6 +190,10 @@ public class main extends JPanel implements ActionListener {
 					wp = new weapons(c.day, c.sunX, c.sunY);
 					cr = new credits(c.day, c.sunX, c.sunY);
 					m = new menu(c.day, c.sunX, c.sunY, c);
+				}
+				if (key == KeyEvent.VK_P) {
+					state = "menu";
+					m.prevState = "classic";
 				}
 				
 				if (key == KeyEvent.VK_F) {
@@ -228,21 +234,25 @@ public class main extends JPanel implements ActionListener {
 					c.p2.up = false;
 				if (key == KeyEvent.VK_DOWN)
 					c.p2.down = false;
-			} else if(state.equals("menu")){
-				if(key == KeyEvent.VK_O) {
+			} else if (state.equals("menu")) {
+				if (key == KeyEvent.VK_1) {
 					m.load = !m.load;
 					c.changeLoad();
 				}
-				if(key == KeyEvent.VK_P) {
+				if (key == KeyEvent.VK_2) {
 					m.trajectory = !m.trajectory;
 					c.changeTrajectory();
 				}
-				if (key == KeyEvent.VK_R) {
-					state = "title";
-					c = new classic();
+				if (key == KeyEvent.VK_ESCAPE || key == KeyEvent.VK_P) {
+					if (m.prevState.equals("classic")) {
+						state = "classic";
+					} else {
+						state = "title";
+					}
 				}
 			} else {
-				if (key == KeyEvent.VK_R) state = "title";
+				if (key == KeyEvent.VK_ESCAPE)
+					state = "title";
 			}
 		}
 	}

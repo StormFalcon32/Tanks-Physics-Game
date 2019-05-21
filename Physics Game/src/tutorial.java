@@ -39,8 +39,7 @@ public class tutorial {
 		g.drawString("N and M to move", 375, 200);
 		g.drawString("B to switch weapon", 375, 250);
 		g.drawString("Space to shoot", 375, 300);
-		g.drawString("R to return", 125, 400);
-		g.drawString("Esc to view menu", 125, 450);
+		g.drawString("Esc to return to title screen, P for menu", 125, 450);
 		g.drawString("Cursor to display coordinates", 125, 500);
 		g.drawString("Gravity is 10 m/s/s", 125, 550);
 	}
