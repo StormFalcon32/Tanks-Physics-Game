@@ -107,7 +107,7 @@ public class tank extends object {
 			visible = false;
 		// if no health, invisible
 		
-		// genTrajectory();
+		genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
@@ -122,7 +122,7 @@ public class tank extends object {
 		
 		super.draw(g);
 		
-		// g.drawPolyline(xPoints, yPoints, 20);
+		g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	
