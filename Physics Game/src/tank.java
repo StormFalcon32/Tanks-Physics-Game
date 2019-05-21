@@ -35,8 +35,8 @@ public class tank extends object {
 	boolean hitSilo = false;
 	// did it hit the silo
 	
-	int[] xPoints = new int[20];
-	int[] yPoints = new int[20];
+	ArrayList<Integer> xPoints = new ArrayList<Integer>();
+	ArrayList<Integer> yPoints = new ArrayList<Integer>();
 	// trajectory coordinates
 	
 	int bx;
@@ -104,7 +104,7 @@ public class tank extends object {
 			visible = false;
 		// if no health, invisible
 		
-		genTrajectory();
+		// genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
@@ -116,9 +116,14 @@ public class tank extends object {
 		double rads = Math.toRadians(-angle);
 		g.drawImage(rotateImg(barrelSp, rads), (int) (x + 4.5 * Math.cos(rads) + ((player == 1) ? 2 : 3)), (int) (y + 4.5 * Math.sin(rads) + 2), null);
 		// draw barrels (don't try and understand it, just accept that it works)
-		
+		// int[] xLine = new int[xPoints.size()];
+		// int[] yLine = new int[yPoints.size()];
+		// for (int i = 0; i < xPoints.size(); i++) {
+		// xLine[i] = xPoints.get(i);
+		// yLine[i] = yPoints.get(i);
+		// }
+		// g.drawPolyline(xLine, yLine, xPoints.size());
 		super.draw(g);
-		g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	
@@ -136,7 +141,7 @@ public class tank extends object {
 		// if low on ammo, don't shoot
 		if (ammo < 30 && type == 1)
 			return;
-		if (ammo < 60 && type == 2) {
+		if (ammo < 40 && type == 2) {
 			return;
 		}
 		if (System.currentTimeMillis() - lastTime > cooldownTime || lastTime == -1) {
@@ -151,7 +156,7 @@ public class tank extends object {
 				// blue bird
 			} else if (type == 2) {
 				a = new attack(bx, y, angle, velocity, 0, type, sp.weapons[type], sp);
-				ammo -= 60;
+				ammo -= 40;
 				// pierce
 			} else if (type == 3) {
 				a = new attack(bx, y, angle, velocity, 0, type, sp.weapons[type], sp);
@@ -181,11 +186,17 @@ public class tank extends object {
 		double vx = velocity * Math.cos(Math.toRadians(-angle));
 		double vy = velocity * Math.sin(Math.toRadians(-angle));
 		
-		for (int z = 0; z != 20; z++) {
-			double coordX = bx + vx * z;
-			double coordY = y + vy * z + (10 * z * z / 2);
-			xPoints[z] = (int) coordX;
-			yPoints[z] = (int) coordY;
+		xPoints.clear();
+		yPoints.clear();
+		double coordX = bx;
+		double coordY = y;
+		int z = 0;
+		while (coordY <= 400) {
+			coordX = bx + vx * z;
+			coordY = y + vy * z + (10 * z * z / 2);
+			xPoints.add((int) coordX);
+			yPoints.add((int) coordY);
+			z++;
 		}
 		// calculates the trajectory according to projectile motion
 	}

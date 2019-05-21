@@ -29,7 +29,7 @@ public class weapons {
 		g.drawString("Weapons", 100, 50);
 		g.setFont(sp.fonts[1]);
 		g.drawString("Bullet", 125, 200);
-		g.drawString("Split", 125, 250);
+		g.drawString("Blue Bird", 125, 250);
 		g.drawString("Pierce", 125, 500);
 		g.setFont(sp.fonts[0]);
 		g.drawString("20 damage", 275, 200);

@@ -8,7 +8,7 @@ public class obstacle {
 	String type;
 	// hill, mountain, silohill
 	
-	int health = 80;
+	int health = 140;
 	// if silohill
 	
 	boolean visible = true;

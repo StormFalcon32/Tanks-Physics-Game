@@ -13,7 +13,7 @@ public class classic {
 	tank p2;
 	// player tanks
 	
-	String[] types = { "Bullet (10 ammo)", "Blue Bird (30 ammo)", "Pierce (60 ammo)", "Laser (all ammo)" };
+	String[] types = { "Bullet (10 ammo)", "Blue Bird (30 ammo)", "Pierce (40 ammo)", "Laser (all ammo)" };
 	// weapon names
 	
 	ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
