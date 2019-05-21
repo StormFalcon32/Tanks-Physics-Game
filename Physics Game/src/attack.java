@@ -40,10 +40,6 @@ public class attack extends object {
 	double currA;
 	// current angle
 	
-	boolean impact = false;
-	int afterImpact = 0;
-	// has the bomb hit the ground
-	
 	public attack(int x, int y, double a, double v, int d, int t, BufferedImage currSp, sprites sp) {
 		super(x, y, currSp.getWidth(), currSp.getHeight(), currSp, sp);
 		sx = x;
@@ -85,8 +81,11 @@ public class attack extends object {
 	}
 	
 	public int getDamage() {
+		if (!visible)
+			return 0;
 		if (type == 2) {
-			return (int) (Math.sqrt(currVx * currVx + currVy * currVy) / 10);
+			int damage = (int) (Math.sqrt(currVx * currVx + currVy * currVy) / 2);
+			return damage;
 		}
 		return damage;
 	}

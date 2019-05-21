@@ -75,9 +75,6 @@ public class tank extends object {
 					laser = new laser(attacks.get(x).x, sp);
 					attacks.remove(x);
 					x--;
-				} else if (attacks.get(x).impact == false && attacks.get(x).type == 3) {
-					attacks.remove(x);
-					x--;
 				}
 			}
 		}
@@ -107,7 +104,7 @@ public class tank extends object {
 			visible = false;
 		// if no health, invisible
 		
-		// genTrajectory();
+		genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
@@ -121,7 +118,7 @@ public class tank extends object {
 		// draw barrels (don't try and understand it, just accept that it works)
 		
 		super.draw(g);
-		// g.drawPolyline(xPoints, yPoints, 20);
+		g.drawPolyline(xPoints, yPoints, 20);
 		// draws the trajectory
 	}
 	

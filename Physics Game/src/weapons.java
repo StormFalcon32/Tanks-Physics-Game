@@ -38,6 +38,6 @@ public class weapons {
 		g.drawString("+30 degrees 5Vx / (2sqrt3)", 275, 350);
 		g.drawString("0 degrees Vx / 2", 275, 400);
 		g.drawString("-30 degrees 5Vx / (2sqrt3)", 275, 450);
-		g.drawString("Damage is Vf / 10", 275, 500);
+		g.drawString("Damage is Vf / 2", 275, 500);
 	}
 }

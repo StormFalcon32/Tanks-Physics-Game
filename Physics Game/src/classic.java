@@ -292,26 +292,23 @@ public class classic {
 					
 					for (obstacle o : obstacles) {
 						if (o.hitbox.intersects(ar) && o.visible && s.count > 5) {
-							s.visible = false;
-							s.impact = true;
 							o.health -= s.getDamage();
 							o.health = Math.max(0, o.health);
+							s.visible = false;
 						}
 						silo silo = o.silo;
 						if (!o.visible && silo != null && s.visible && silo.getHitBox().intersects(ar)) {
-							s.visible = false;
-							s.impact = true;
 							silo.health -= s.getDamage();
 							silo.health = Math.max(0, silo.health);
 							if (silo.health == 0) {
 								p1.hitSilo = true;
 							}
+							s.visible = false;
 						}
 					}
 					for (building b : buildings) {
 						if (b.getHitBox().intersects(ar) && b.visible) {
 							s.visible = false;
-							s.impact = true;
 							b.health = 0;
 							p1.ammo += b.ammoBonus;
 						}
@@ -320,29 +317,26 @@ public class classic {
 					// attacks disappear and deal damage
 					
 					if (p2.visible && ar.intersects(p2.getHitBox())) {
-						s.visible = false;
-						s.impact = true;
 						p2.health -= s.getDamage();
 						p2.health = Math.max(0, p2.health);
 						if (p2.health == 0) {
 							p2.ammo = 0;
 						}
+						s.visible = false;
 					}
 					if (p1.visible && ar.intersects(p1.getHitBox()) && s.count > 5) {
-						s.visible = false;
-						s.impact = true;
 						p1.health -= s.getDamage();
 						p1.health = Math.max(0, p1.health);
 						if (p1.health == 0) {
 							p1.ammo = 0;
 						}
+						s.visible = false;
 					}
 					// checks player 2 collision
 					// attacks disappear and deal damage
 					
 					if (ar.y > 400) {
 						s.visible = false;
-						s.impact = true;
 					}
 					// if it goes out of bounds, it disappears
 				}
@@ -351,57 +345,51 @@ public class classic {
 				
 				for (obstacle o : obstacles) {
 					if (o.hitbox.intersects(ar) && o.visible && a.count > 5) {
-						a.visible = false;
-						a.impact = true;
 						o.health -= a.getDamage();
 						o.health = Math.max(0, o.health);
+						a.visible = false;
 					}
 					silo silo = o.silo;
 					if (!o.visible && silo != null && a.visible && silo.getHitBox().intersects(ar)) {
-						a.visible = false;
-						a.impact = true;
 						silo.health -= a.getDamage();
 						silo.health = Math.max(0, silo.health);
 						if (silo.health == 0) {
 							p1.hitSilo = true;
 						}
+						a.visible = false;
 					}
 				}
 				for (building b : buildings) {
 					if (b.getHitBox().intersects(ar) && b.visible) {
-						a.visible = false;
-						a.impact = true;
 						b.health = 0;
 						p1.ammo += b.ammoBonus;
+						a.visible = false;
 					}
 				}
 				// checks obstacle collision
 				// attacks disappear and deal damage
 				
 				if (p2.visible && ar.intersects(p2.getHitBox())) {
-					a.visible = false;
-					a.impact = true;
 					p2.health -= a.getDamage();
 					p2.health = Math.max(0, p2.health);
 					if (p2.health == 0) {
 						p2.ammo = 0;
 					}
+					a.visible = false;
 				}
 				if (p1.visible && ar.intersects(p1.getHitBox()) && a.count > 5) {
-					a.visible = false;
-					a.impact = true;
 					p1.health -= a.getDamage();
 					p1.health = Math.max(0, p1.health);
 					if (p1.health == 0) {
 						p1.ammo = 0;
 					}
+					a.visible = false;
 				}
 				// checks player 2 collision
 				// attacks disappear and deal damage
 				
 				if (ar.y > 400) {
 					a.visible = false;
-					a.impact = true;
 				}
 				// if it goes out of bounds, it disappears
 			}
@@ -416,57 +404,51 @@ public class classic {
 					
 					for (obstacle o : obstacles) {
 						if (o.hitbox.intersects(ar) && o.visible && s.count > 5) {
-							s.visible = false;
-							s.impact = true;
 							o.health -= s.getDamage();
 							o.health = Math.max(0, o.health);
+							s.visible = false;
 						}
 						silo silo = o.silo;
 						if (!o.visible && silo != null && s.visible && silo.getHitBox().intersects(ar)) {
-							s.visible = false;
-							s.impact = true;
 							silo.health -= s.getDamage();
 							silo.health = Math.max(0, silo.health);
 							if (silo.health == 0) {
 								p2.hitSilo = true;
 							}
+							s.visible = false;
 						}
 					}
 					for (building b : buildings) {
 						if (b.getHitBox().intersects(ar) && b.visible) {
-							s.visible = false;
-							s.impact = true;
 							b.health = 0;
 							p2.ammo += b.ammoBonus;
+							s.visible = false;
 						}
 					}
 					// checks obstacle collision
 					// attacks disappear and deal damage
 					
 					if (p1.visible && ar.intersects(p1.getHitBox())) {
-						s.visible = false;
-						s.impact = true;
 						p1.health -= s.getDamage();
 						p1.health = Math.max(0, p1.health);
 						if (p1.health == 0) {
 							p1.ammo = 0;
 						}
+						s.visible = false;
 					}
 					if (p2.visible && ar.intersects(p2.getHitBox()) && s.count > 5) {
-						s.visible = false;
-						s.impact = true;
 						p2.health -= s.getDamage();
 						p2.health = Math.max(0, p2.health);
 						if (p2.health == 0) {
 							p2.ammo = 0;
 						}
+						s.visible = false;
 					}
 					// checks player 1 collision
 					// attacks disappear and deal damage
 					
 					if (ar.y > 400) {
 						s.visible = false;
-						s.impact = true;
 					}
 					// if it goes out of bounds, it disappears
 				}
@@ -475,26 +457,23 @@ public class classic {
 				
 				for (obstacle o : obstacles) {
 					if (o.hitbox.intersects(ar) && o.visible && a.count > 5) {
-						a.visible = false;
-						a.impact = true;
 						o.health -= a.getDamage();
 						o.health = Math.max(0, o.health);
+						a.visible = false;
 					}
 					silo silo = o.silo;
 					if (!o.visible && silo != null && a.visible && silo.getHitBox().intersects(ar)) {
-						a.visible = false;
-						a.impact = true;
 						silo.health -= a.getDamage();
 						silo.health = Math.max(0, silo.health);
 						if (silo.health == 0) {
 							p2.hitSilo = true;
 						}
+						a.visible = false;
 					}
 				}
 				for (building b : buildings) {
 					if (b.getHitBox().intersects(ar) && b.visible) {
 						a.visible = false;
-						a.impact = true;
 						b.health = 0;
 						p2.ammo += b.ammoBonus;
 					}
@@ -503,29 +482,26 @@ public class classic {
 				// attacks disappear and deal damage
 				
 				if (p1.visible && ar.intersects(p1.getHitBox())) {
-					a.visible = false;
-					a.impact = true;
 					p1.health -= a.getDamage();
 					p1.health = Math.max(0, p1.health);
 					if (p1.health == 0) {
 						p1.ammo = 0;
 					}
+					a.visible = false;
 				}
 				if (p2.visible && ar.intersects(p2.getHitBox()) && a.count > 5) {
-					a.visible = false;
-					a.impact = true;
 					p2.health -= a.getDamage();
 					p2.health = Math.max(0, p2.health);
 					if (p2.health == 0) {
 						p2.ammo = 0;
 					}
+					a.visible = false;
 				}
 				// checks player 1 collision
 				// attacks disappear and deal damage
 				
 				if (ar.y > 400) {
 					a.visible = false;
-					a.impact = true;
 				}
 				// if it goes out of bounds, it disappears
 			}
