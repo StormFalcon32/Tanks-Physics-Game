@@ -96,8 +96,8 @@ public class classic {
 	}
 	
 	public void draw(Graphics g) {
-		if (count <= 50) {
-			g.translate(0, (50 - count) * 4);
+		if (count <= 60) {
+			g.translate(0, (60 - count) * 4);
 			count++;
 		}
 		if ((p1.laser != null && p1.laser.visible) || (p2.laser != null && p2.laser.visible)) {
@@ -132,13 +132,13 @@ public class classic {
 		g.fillRect(0, 400, 600, 200);
 		// bottom of the map
 		
-		if (count > 50) {
+		if (count > 60) {
 			
 			g.setColor(Color.BLACK);
 			// resets text color
 			
-			g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0 : Math.max(0, Math.round((tank.cooldownTime + p1.lastTime - System.currentTimeMillis()) / 1000))), 10, 430);
-			g.drawString("Regen: " + ((p1.ammoTime == -1) ? 0 : Math.max(0, Math.round((tank.regenTime + p1.ammoTime - System.currentTimeMillis()) / 1000))), 150, 430);
+			g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0 : Math.max(0, Math.round((p1.cooldownTime + p1.lastTime - System.currentTimeMillis()) / 1000))), 10, 430);
+			g.drawString("Regen: " + ((p1.ammoTime == -1) ? 0 : Math.max(0, Math.round((p1.regenTime + p1.ammoTime - System.currentTimeMillis()) / 1000))), 150, 430);
 			g.drawString("Health: " + p1.health, 10, 460);
 			g.drawString(" Ammo: " + p1.ammo, 120, 460);
 			g.drawString("Angle: " + p1.angle, 10, 490);
@@ -146,8 +146,8 @@ public class classic {
 			g.drawString("Weapon: " + types[p1.type], 10, 550);
 			// player 1 stats
 			
-			g.drawString("Cooldown: " + ((p2.lastTime == -1) ? 0 : Math.max(0, Math.round((15000 + p2.lastTime - System.currentTimeMillis()) / 1000))), 310, 430);
-			g.drawString("Regen: " + ((p2.ammoTime == -1) ? 0 : Math.max(0, Math.round((tank.regenTime + p2.ammoTime - System.currentTimeMillis()) / 1000))), 450, 430);
+			g.drawString("Cooldown: " + ((p2.lastTime == -1) ? 0 : Math.max(0, Math.round((p2.cooldownTime + p2.lastTime - System.currentTimeMillis()) / 1000))), 310, 430);
+			g.drawString("Regen: " + ((p2.ammoTime == -1) ? 0 : Math.max(0, Math.round((p2.regenTime + p2.ammoTime - System.currentTimeMillis()) / 1000))), 450, 430);
 			g.drawString("Health: " + p2.health, 310, 460);
 			g.drawString(" Ammo: " + p2.ammo, 420, 460);
 			g.drawString("Angle: " + p2.angle, 310, 490);
@@ -522,5 +522,25 @@ public class classic {
 				p2.health = 0;
 			}
 		}
+	}
+	
+	public void changeLoad() {
+		if(p1.regenTime == 15000) {
+			p1.regenTime = 5000;
+			p1.ammoTime = 5000;
+			p2.regenTime = 5000;
+			p2.ammoTime = 5000;
+		}
+		else {
+			p1.regenTime = 15000;
+			p1.ammoTime = 15000;
+			p2.regenTime = 15000;
+			p2.ammoTime = 15000;
+		}
+	}
+	
+	public void changeTrajectory() {
+		p1.viewTrajectory = !p1.viewTrajectory;
+		p2.viewTrajectory = !p2.viewTrajectory;
 	}
 }

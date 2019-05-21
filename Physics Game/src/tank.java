@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -35,8 +36,8 @@ public class tank extends object {
 	boolean hitSilo = false;
 	// did it hit the silo
 	
-	ArrayList<Integer> xPoints = new ArrayList<Integer>();
-	ArrayList<Integer> yPoints = new ArrayList<Integer>();
+	int[] xPoints = new int[100];
+	int[] yPoints = new int[100];
 	// trajectory coordinates
 	
 	int bx;
@@ -48,9 +49,11 @@ public class tank extends object {
 	double ammoTime = System.currentTimeMillis();
 	// timer for ammo regen
 	
-	static final int cooldownTime = 15000;
-	static final int regenTime = 20000;
+	int cooldownTime = 15000;
+	int regenTime = 15000;
 	// constants for cooldown and ammo regen
+	
+	boolean viewTrajectory = false;
 	
 	public tank(int x, int y, int player, sprites sp) {
 		super(x, y, 10, 10, (player == 1) ? sp.tanks[0] : sp.tanks[2], sp);
@@ -104,7 +107,7 @@ public class tank extends object {
 			visible = false;
 		// if no health, invisible
 		
-		// genTrajectory();
+		genTrajectory();
 	}
 	
 	public void draw(Graphics g) {
@@ -115,16 +118,11 @@ public class tank extends object {
 		}
 		double rads = Math.toRadians(-angle);
 		g.drawImage(rotateImg(barrelSp, rads), (int) (x + 4.5 * Math.cos(rads) + ((player == 1) ? 2 : 3)), (int) (y + 4.5 * Math.sin(rads) + 2), null);
-		// draw barrels (don't try and understand it, just accept that it works)
-		// int[] xLine = new int[xPoints.size()];
-		// int[] yLine = new int[yPoints.size()];
-		// for (int i = 0; i < xPoints.size(); i++) {
-		// xLine[i] = xPoints.get(i);
-		// yLine[i] = yPoints.get(i);
-		// }
-		// g.drawPolyline(xLine, yLine, xPoints.size());
 		super.draw(g);
-		// draws the trajectory
+		
+		g.setColor(Color.WHITE);
+		if(viewTrajectory) g.drawPolyline(xPoints, yPoints, xPoints.length);
+		// draws the trajectory if visible
 	}
 	
 	public void movePos(int dx) {
@@ -185,17 +183,15 @@ public class tank extends object {
 		bx = x + 5;
 		double vx = velocity * Math.cos(Math.toRadians(-angle));
 		double vy = velocity * Math.sin(Math.toRadians(-angle));
-		
-		xPoints.clear();
-		yPoints.clear();
+	
 		double coordX = bx;
 		double coordY = y;
 		int z = 0;
-		while (coordY <= 400) {
+		while (z < 100) {
 			coordX = bx + vx * z;
 			coordY = y + vy * z + (10 * z * z / 2);
-			xPoints.add((int) coordX);
-			yPoints.add((int) coordY);
+			xPoints[z] = (int) coordX;
+			yPoints[z] = (int) coordY;
 			z++;
 		}
 		// calculates the trajectory according to projectile motion

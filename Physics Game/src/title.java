@@ -27,7 +27,7 @@ public class title {
 	
 	public void draw(Graphics g) {
 		g.setFont(sp.fonts[3]);
-		g.setColor((day) ? Color.BLACK : Color.WHITE);
+		g.setColor(Color.WHITE);
 		g.drawImage((day) ? sp.background[0] : sp.background[2], 0, 0, null);
 		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY + 200, null);
 		g.drawString("Bomb Squad", 100, 200);
@@ -36,10 +36,10 @@ public class title {
 		g.drawString("Controls", 125, 300);
 		g.drawString("Weapons", 125, 350);
 		g.drawString("Credits", 125, 400);
+		g.drawString("Menu", 125, 450);
 		g.drawString(">", 100, selection * 50 + 250);
 		g.setFont(sp.fonts[0]);
-		drawCenteredString(g, "[Space to Continue]", new Rectangle(0, 350, 600, 250), sp.fonts[0]);
-		g.drawString("R to go Back", 350, 275);
+		drawCenteredString(g, "[Space to Continue]", new Rectangle(0, 400, 600, 200), sp.fonts[0]);
 	}
 	
 	public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {

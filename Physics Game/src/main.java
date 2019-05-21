@@ -40,6 +40,7 @@ public class main extends JPanel implements ActionListener {
 	tutorial h = new tutorial(c.day, c.sunX, c.sunY);
 	weapons wp = new weapons(c.day, c.sunX, c.sunY);
 	credits cr = new credits(c.day, c.sunX, c.sunY);
+	menu m = new menu(c.day, c.sunX, c.sunY, c);
 	// game components
 	
 	// ---- CONSTRUCTOR ----//
@@ -92,6 +93,9 @@ public class main extends JPanel implements ActionListener {
 		}
 		if (state.equals("credits")) {
 			cr.draw(g);
+		}
+		if (state.equals("menu")) {
+			m.draw(g);
 		}
 	}
 	
@@ -158,16 +162,19 @@ public class main extends JPanel implements ActionListener {
 					case 3:
 						state = "credits";
 						break;
+					case 4:
+						state = "menu";
+						break;
 					}
 				}
 				if (key == KeyEvent.VK_W)
 					t.selection = Math.max(0, t.selection - 1);
 				if (key == KeyEvent.VK_S)
-					t.selection = Math.min(3, t.selection + 1);
+					t.selection = Math.min(4, t.selection + 1);
 				if (key == KeyEvent.VK_UP)
 					t.selection = Math.max(0, t.selection - 1);
 				if (key == KeyEvent.VK_DOWN)
-					t.selection = Math.min(3, t.selection + 1);
+					t.selection = Math.min(4, t.selection + 1);
 			} else if (state.equals("classic")) {
 				if (key == KeyEvent.VK_SHIFT && e.getKeyLocation() == KeyEvent.KEY_LOCATION_LEFT)
 					c.p1.shoot();
@@ -177,6 +184,10 @@ public class main extends JPanel implements ActionListener {
 					state = "title";
 					c = new classic();
 					t = new title(c.day, c.sunX, c.sunY);
+					h = new tutorial(c.day, c.sunX, c.sunY);
+					wp = new weapons(c.day, c.sunX, c.sunY);
+					cr = new credits(c.day, c.sunX, c.sunY);
+					m = new menu(c.day, c.sunX, c.sunY, c);
 				}
 				
 				if (key == KeyEvent.VK_F) {
@@ -217,15 +228,21 @@ public class main extends JPanel implements ActionListener {
 					c.p2.up = false;
 				if (key == KeyEvent.VK_DOWN)
 					c.p2.down = false;
-			} else {
+			} else if(state.equals("menu")){
+				if(key == KeyEvent.VK_O) {
+					m.load = !m.load;
+					c.changeLoad();
+				}
+				if(key == KeyEvent.VK_P) {
+					m.trajectory = !m.trajectory;
+					c.changeTrajectory();
+				}
 				if (key == KeyEvent.VK_R) {
 					state = "title";
 					c = new classic();
-					t = new title(c.day, c.sunX, c.sunY);
-					h = new tutorial(c.day, c.sunX, c.sunY);
-					wp = new weapons(c.day, c.sunX, c.sunY);
-					cr = new credits(c.day, c.sunX, c.sunY);
 				}
+			} else {
+				if (key == KeyEvent.VK_R) state = "title";
 			}
 		}
 	}

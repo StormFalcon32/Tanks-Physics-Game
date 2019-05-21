@@ -23,7 +23,7 @@ public class credits {
 	
 	public void draw(Graphics g) {
 		g.setFont(sp.fonts[3]);
-		g.setColor((day) ? Color.BLACK : Color.WHITE);
+		g.setColor(Color.WHITE);
 		g.drawImage((day) ? sp.background[0] : sp.background[2], 0, 0, null);
 		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY + 200, null);
 		g.drawString("Credits", 100, 50);
@@ -35,11 +35,11 @@ public class credits {
 		g.drawString("Khalid", 125, 400);
 		g.drawString("Preet", 125, 450);
 		g.setFont(sp.fonts[0]);
-		g.drawString("Lead Programmer + Art", 275, 200);
-		g.drawString("Engine Programmer", 275, 250);
-		g.drawString("Math + Design", 275, 300);
-		g.drawString("Lead Artist", 275, 350);
-		g.drawString("Art + Design + Slides", 275, 400);
-		g.drawString("Design + Slides", 275, 450);
+		g.drawString("Lead Programmer, Artist", 275, 200);
+		g.drawString("Engine Programmer, Artist", 275, 250);
+		g.drawString("Mathematician, Designer, PR", 275, 300);
+		g.drawString("Lead Artist, Playtester", 275, 350);
+		g.drawString("Artist, Designer, PR", 275, 400);
+		g.drawString("Designer, Playtester, PR", 275, 450);
 	}
 }

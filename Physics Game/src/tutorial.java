@@ -23,7 +23,7 @@ public class tutorial {
 	
 	public void draw(Graphics g) {
 		g.setFont(sp.fonts[3]);
-		g.setColor((day) ? Color.BLACK : Color.WHITE);
+		g.setColor(Color.WHITE);
 		g.drawImage((day) ? sp.background[0] : sp.background[2], 0, 0, null);
 		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY + 200, null);
 		g.drawString("Controls", 100, 50);
@@ -39,7 +39,9 @@ public class tutorial {
 		g.drawString("N and M to move", 375, 200);
 		g.drawString("B to switch weapon", 375, 250);
 		g.drawString("Space to shoot", 375, 300);
-		g.drawString("Cursor to display coordinates", 175, 500);
-		g.drawString("Gravity is 10 m/s/s", 175, 550);
+		g.drawString("R to return", 125, 400);
+		g.drawString("Esc to view menu", 125, 450);
+		g.drawString("Cursor to display coordinates", 125, 500);
+		g.drawString("Gravity is 10 m/s/s", 125, 550);
 	}
 }

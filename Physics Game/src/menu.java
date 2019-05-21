@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class weapons {
+public class menu {
 	sprites sp = new sprites();
 	// sprites
 	
@@ -15,10 +15,20 @@ public class weapons {
 	int selection = 0;
 	// what is being selected
 	
-	public weapons(boolean d, int x, int y) {
+	classic c;
+	// game
+
+	boolean load;
+	// fast cooldown and regen
+	
+	boolean trajectory;
+	// drawing of trajectories
+	
+	public menu(boolean d, int x, int y, classic c) {
 		day = d;
 		sunX = x;
 		sunY = y;
+		this.c = c;
 	}
 	
 	public void draw(Graphics g) {
@@ -26,18 +36,14 @@ public class weapons {
 		g.setColor(Color.WHITE);
 		g.drawImage((day) ? sp.background[0] : sp.background[2], 0, 0, null);
 		g.drawImage((day) ? sp.background[1] : sp.background[3], sunX, sunY + 200, null);
-		g.drawString("Weapons", 100, 50);
+		g.drawString("Menu", 100, 50);
 		g.setFont(sp.fonts[1]);
-		g.drawString("Bullet", 125, 200);
-		g.drawString("Blue Bird", 125, 250);
-		g.drawString("Pierce", 125, 500);
+		if(load) g.drawString("Faster Gameplay (ON)", 125, 200);
+		else g.drawString("Faster Gameplay (OFF)", 125, 200);
+		if(trajectory) g.drawString("Draw Trajectories (ON)", 125, 300);
+		else g.drawString("Draw Trajectories (OFF)", 125, 300);
 		g.setFont(sp.fonts[0]);
-		g.drawString("20 damage", 300, 200);
-		g.drawString("180 damage (60 per piece)", 300, 250);
-		g.drawString("Splits into 3 at the vertex:", 300, 300);
-		g.drawString("+30 degrees 5Vx / (2sqrt3)", 300, 350);
-		g.drawString("0 degrees Vx / 2", 300, 400);
-		g.drawString("-30 degrees 5Vx / (2sqrt3)", 300, 450);
-		g.drawString("Damage is Vf / 2", 300, 500);
+		g.drawString("Press O", 275, 250);
+		g.drawString("Press P", 275, 350);
 	}
 }
