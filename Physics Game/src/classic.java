@@ -4,51 +4,51 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class classic {
-
+	
 	/*
 	 * normal mode
 	 */
-
+	
 	tank p1;
 	tank p2;
 	// player tanks
-
-	String[] types = { "Bullet", "Blue Bird", "Laser" };
+	
+	String[] types = { "Bullet (10 ammo)", "Blue Bird (30 ammo)", "Laser (all ammo)" };
 	// weapon names
-
+	
 	ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
 	// map obstacles
-
+	
 	ArrayList<building> buildings = new ArrayList<building>();
 	// map buildings
-
+	
 	// ---- TEST ----//
 	obstacle o;
-
+	
 	int mx = 0;
 	int my = 0;
 	// previous mouse position
-
+	
 	sprites sp = new sprites();
 	// sprites
-
+	
 	boolean day;
 	// day or night
-
+	
 	int gameState = 0;
 	// is the game finished
-
+	
 	int[] yPoints = { 250, 200, 170, 155, 150, 155, 170, 200, 250 };
 	int[] xPoints = { 100, 150, 200, 250, 300, 350, 400, 450, 500 };
 	// trajectory of sun/moon
-
+	
 	int sunX;
 	int sunY;
 	// coordinates of sun/moon
 	
 	int count = 0;
 	// starting animation
-
+	
 	public classic() {
 		p1 = new tank(45, 400 - 10, 1, sp);
 		p1.angle = 75;
@@ -57,7 +57,7 @@ public class classic {
 		p2.angle = 105;
 		p2.velocity = 75;
 		// adds tanks and default settings
-
+		
 		int randomWeather = (int) (Math.random() * 9);
 		if (randomWeather > 4) {
 			day = true;
@@ -67,26 +67,23 @@ public class classic {
 		sunX = xPoints[randomWeather];
 		sunY = yPoints[randomWeather];
 		// determine weather randomly
-
+		
 		int random = ((int) (Math.random() * 2)) + 4;
-		obstacles.add(new obstacle("silohill", random * 50, 150,
-				new silo(random * 50 + 75 - 8, 400 - 32, sp.buildings[1], sp)));
+		obstacles.add(new obstacle("silohill", random * 50, 150, new silo(random * 50 + 75 - 8, 400 - 32, sp.buildings[1], sp)));
 		obstacles.add(new obstacle("hill", 100, random * 50 - 100, null));
 		obstacles.add(new obstacle("mountain", random * 50 + 150, 500 - (random * 50 + 150), null));
 		// adds obstacles randomly
-
-		buildings.add(
-				new building(140, obstacles.get(1).ypoints[obstacles.get(1).xToIndex[150]] - 10, sp.buildings[0], sp));
-		buildings.add(
-				new building(440, obstacles.get(2).ypoints[obstacles.get(2).xToIndex[450]] - 10, sp.buildings[0], sp));
+		
+		buildings.add(new building(140, obstacles.get(1).ypoints[obstacles.get(1).xToIndex[150]] - 10, sp.buildings[0], sp));
+		buildings.add(new building(440, obstacles.get(2).ypoints[obstacles.get(2).xToIndex[450]] - 10, sp.buildings[0], sp));
 		// add ammo buildings
 	}
-
+	
 	public void move() {
 		p1.move();
 		p2.move();
 		// moves players
-
+		
 		for (obstacle o : obstacles) {
 			o.move();
 		}
@@ -97,7 +94,7 @@ public class classic {
 		collision();
 		// handles collision
 	}
-
+	
 	public void draw(Graphics g) {
 		if (count <= 50) {
 			g.translate(0, (50 - count) * 4);
@@ -112,7 +109,7 @@ public class classic {
 		p1.draw(g);
 		p2.draw(g);
 		// draws the players
-
+		
 		if (!p1.visible && (gameState == 0 || gameState == 1)) {
 			g.drawImage(sp.victories[1], 150, 200, null);
 			gameState = 1;
@@ -122,44 +119,42 @@ public class classic {
 			gameState = 2;
 		}
 		// win screen
-
+		
 		for (obstacle o : obstacles)
 			o.draw(g);
 		// draws the obstacles
-
+		
 		for (building b : buildings)
 			b.draw(g);
 		// draws the buildings
-
+		
 		g.setColor(new Color(255, 235, 205));
 		g.fillRect(0, 400, 600, 200);
 		// bottom of the map
 		
 		if (count > 50) {
-
+			
 			g.setColor(Color.BLACK);
 			// resets text color
-	
-			g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0
-					: Math.max(0, Math.round((15000 + p1.lastTime - System.currentTimeMillis()) / 1000))), 10, 430);
+			
+			g.drawString("Cooldown: " + ((p1.lastTime == -1) ? 0 : Math.max(0, Math.round((tank.cooldownTime + p1.lastTime - System.currentTimeMillis()) / 1000))), 10, 430);
+			g.drawString("Regen: " + ((p1.ammoTime == -1) ? 0 : Math.max(0, Math.round((tank.regenTime + p1.ammoTime - System.currentTimeMillis()) / 1000))), 150, 430);
 			g.drawString("Health: " + p1.health, 10, 460);
 			g.drawString(" Ammo: " + p1.ammo, 120, 460);
 			g.drawString("Angle: " + p1.angle, 10, 490);
 			g.drawString("Velocity: " + p1.velocity, 10, 520);
 			g.drawString("Weapon: " + types[p1.type], 10, 550);
 			// player 1 stats
-	
-			g.drawString(
-					"Cooldown: " + ((p2.lastTime == -1) ? 0
-							: Math.max(0, Math.round((15000 + p2.lastTime - System.currentTimeMillis()) / 1000))),
-					310, 430);
+			
+			g.drawString("Cooldown: " + ((p2.lastTime == -1) ? 0 : Math.max(0, Math.round((15000 + p2.lastTime - System.currentTimeMillis()) / 1000))), 310, 430);
+			g.drawString("Regen: " + ((p2.ammoTime == -1) ? 0 : Math.max(0, Math.round((tank.regenTime + p2.ammoTime - System.currentTimeMillis()) / 1000))), 450, 430);
 			g.drawString("Health: " + p2.health, 310, 460);
 			g.drawString(" Ammo: " + p2.ammo, 420, 460);
 			g.drawString("Angle: " + p2.angle, 310, 490);
 			g.drawString("Velocity: " + p2.velocity, 310, 520);
 			g.drawString("Weapon: " + types[p2.type], 310, 550);
 			// player 2 stats
-	
+			
 			// g.drawString("Alter angle: A/D or Left/Right", 50, 50);
 			// g.drawString("Alter velocity: W/S or Up/Down", 50, 80);
 			// g.drawString("Fire: E or Space", 50, 110);
@@ -183,14 +178,14 @@ public class classic {
 			drawStats(g);
 		}
 	}
-
+	
 	public void drawStats(Graphics g) {
-
+		
 		if (day)
 			g.setColor(Color.BLACK);
 		else
 			g.setColor(Color.WHITE);
-
+		
 		if (p1.getHitBox().contains(mx, my) && p1.visible) {
 			g.drawString("X: " + (p1.x + 5), p1.x - 20, p1.y - 30);
 			g.drawString("Y: " + (400 - p1.y - p1.h), p1.x - 20, p1.y - 10);
@@ -205,7 +200,7 @@ public class classic {
 			g.drawString("X: " + (s.x + 8), s.x - 20, s.y - 30);
 			g.drawString("Y: " + (400 - s.y - s.h), s.x - 20, s.y - 10);
 		}
-
+		
 		for (building b : buildings) {
 			if (b.getHitBox().contains(mx, my) && b.visible) {
 				g.drawString("X: " + (b.x + 10), b.x - 20, b.y - 30);
@@ -214,12 +209,12 @@ public class classic {
 		}
 		// check if mouse is hovering over anything and display coordinates
 	}
-
+	
 	public void mouseMoved(int x, int y) {
 		mx = x;
 		my = y;
 	}
-
+	
 	public void moveTank(int p, boolean left) {
 		if (p == 1) {
 			if (left) {
@@ -282,19 +277,19 @@ public class classic {
 			if (o.xToIndex[p1.x + 5] != -1) {
 				p1.y = o.ypoints[o.xToIndex[p1.x + 5]] - 10;
 			}
-
+			
 			if (o.xToIndex[p2.x + 5] != -1) {
 				p2.y = o.ypoints[o.xToIndex[p2.x + 5]] - 10;
 			}
 		}
 	}
-
+	
 	public void collision() {
 		for (attack a : p1.attacks) {
 			if (a instanceof splitbomb && ((splitbomb) a).split) {
 				for (attack s : ((splitbomb) a).splits) {
 					Rectangle ar = s.getHitBox();
-
+					
 					for (obstacle o : obstacles) {
 						if (o.hitbox.intersects(ar) && o.visible && s.count > 5) {
 							s.visible = false;
@@ -320,7 +315,7 @@ public class classic {
 					}
 					// checks obstacle collision
 					// attacks disappear and deal damage
-
+					
 					if (p2.visible && ar.intersects(p2.getHitBox())) {
 						s.visible = false;
 						p2.health -= s.damage;
@@ -339,14 +334,14 @@ public class classic {
 					}
 					// checks player 2 collision
 					// attacks disappear and deal damage
-
+					
 					if (ar.y > 400)
 						s.visible = false;
 					// if it goes out of bounds, it disappears
 				}
 			} else {
 				Rectangle ar = a.getHitBox();
-
+				
 				for (obstacle o : obstacles) {
 					if (o.hitbox.intersects(ar) && o.visible && a.count > 5) {
 						a.visible = false;
@@ -372,7 +367,7 @@ public class classic {
 				}
 				// checks obstacle collision
 				// attacks disappear and deal damage
-
+				
 				if (p2.visible && ar.intersects(p2.getHitBox())) {
 					a.visible = false;
 					p2.health -= a.damage;
@@ -391,20 +386,20 @@ public class classic {
 				}
 				// checks player 2 collision
 				// attacks disappear and deal damage
-
+				
 				if (ar.y > 400)
 					a.visible = false;
 				// if it goes out of bounds, it disappears
 			}
 		}
-
+		
 		// ---- literally the same thing but for player 2 ----//
-
+		
 		for (attack a : p2.attacks) {
 			if (a instanceof splitbomb && ((splitbomb) a).split) {
 				for (attack s : ((splitbomb) a).splits) {
 					Rectangle ar = s.getHitBox();
-
+					
 					for (obstacle o : obstacles) {
 						if (o.hitbox.intersects(ar) && o.visible && s.count > 5) {
 							s.visible = false;
@@ -430,7 +425,7 @@ public class classic {
 					}
 					// checks obstacle collision
 					// attacks disappear and deal damage
-
+					
 					if (p1.visible && ar.intersects(p1.getHitBox())) {
 						s.visible = false;
 						p1.health -= s.damage;
@@ -449,14 +444,14 @@ public class classic {
 					}
 					// checks player 1 collision
 					// attacks disappear and deal damage
-
+					
 					if (ar.y > 400)
 						s.visible = false;
 					// if it goes out of bounds, it disappears
 				}
 			} else {
 				Rectangle ar = a.getHitBox();
-
+				
 				for (obstacle o : obstacles) {
 					if (o.hitbox.intersects(ar) && o.visible && a.count > 5) {
 						a.visible = false;
@@ -482,7 +477,7 @@ public class classic {
 				}
 				// checks obstacle collision
 				// attacks disappear and deal damage
-
+				
 				if (p1.visible && ar.intersects(p1.getHitBox())) {
 					a.visible = false;
 					p1.health -= a.damage;
@@ -501,7 +496,7 @@ public class classic {
 				}
 				// checks player 1 collision
 				// attacks disappear and deal damage
-
+				
 				if (ar.y > 400)
 					a.visible = false;
 				// if it goes out of bounds, it disappears
