@@ -30,14 +30,14 @@ public class weapons {
 		g.setFont(sp.fonts[1]);
 		g.drawString("Bullet", 125, 200);
 		g.drawString("Blue Bird", 125, 250);
-		g.drawString("Pierce", 125, 500);
+		g.drawString("Armor Piercer", 125, 500);
 		g.setFont(sp.fonts[0]);
-		g.drawString("20 damage", 300, 200);
+		g.drawString("20 damage", 250, 200);
 		g.drawString("180 damage (60 per piece)", 300, 250);
 		g.drawString("Splits into 3 at the vertex:", 300, 300);
 		g.drawString("+30 degrees 5Vx / (2sqrt3)", 300, 350);
 		g.drawString("0 degrees Vx / 2", 300, 400);
 		g.drawString("-30 degrees 5Vx / (2sqrt3)", 300, 450);
-		g.drawString("Damage is Vf / 2", 300, 500);
+		g.drawString("Damage is Vf / 2", 375, 500);
 	}
 }

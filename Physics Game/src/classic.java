@@ -13,7 +13,7 @@ public class classic {
 	tank p2;
 	// player tanks
 	
-	String[] types = { "Bullet (10 ammo)", "Blue Bird (30 ammo)", "Pierce (40 ammo)", "Laser (all ammo)" };
+	String[] types = { "Bullet [10]", "Blue Bird [30]", "Armor Piercer [40]", "Orbital Strike [NA]" };
 	// weapon names
 	
 	ArrayList<obstacle> obstacles = new ArrayList<obstacle>();
@@ -110,16 +110,6 @@ public class classic {
 		p2.draw(g);
 		// draws the players
 		
-		if (!p1.visible && (gameState == 0 || gameState == 1)) {
-			g.drawImage(sp.victories[1], 150, 200, null);
-			gameState = 1;
-		}
-		if (!p2.visible && (gameState == 0 || gameState == 2)) {
-			g.drawImage(sp.victories[0], 150, 200, null);
-			gameState = 2;
-		}
-		// win screen
-		
 		for (obstacle o : obstacles)
 			o.draw(g);
 		// draws the obstacles
@@ -127,6 +117,20 @@ public class classic {
 		for (building b : buildings)
 			b.draw(g);
 		// draws the buildings
+		
+		if (!p1.visible && (gameState == 0 || gameState == 1)) {
+			g.drawImage(sp.victories[1], 0, 50, null);
+			gameState = 1;
+			g.setColor(Color.WHITE);
+			g.drawString("Press Esc", 250, 300);
+		}
+		if (!p2.visible && (gameState == 0 || gameState == 2)) {
+			g.drawImage(sp.victories[0], 0, 50, null);
+			gameState = 2;
+			g.setColor(Color.WHITE);
+			g.drawString("Press Esc", 250, 300);
+		}
+		// win screen
 		
 		g.setColor(new Color(255, 235, 205));
 		g.fillRect(0, 400, 600, 200);
@@ -181,10 +185,7 @@ public class classic {
 	
 	public void drawStats(Graphics g) {
 		
-		if (day)
-			g.setColor(Color.BLACK);
-		else
-			g.setColor(Color.WHITE);
+		g.setColor(Color.WHITE);
 		
 		if (p1.getHitBox().contains(mx, my) && p1.visible) {
 			g.drawString("X: " + (p1.x + 5), p1.x - 20, p1.y - 30);
