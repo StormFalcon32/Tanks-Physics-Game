@@ -15,7 +15,7 @@ public class application extends JFrame {
 		setSize(600, 600);
 		// JFrame size is 600 x 600, actual game field is 400 * 600
 		setResizable(false);
-		setTitle("Physics Game");
+		setTitle("Bomb Squad");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 	}
