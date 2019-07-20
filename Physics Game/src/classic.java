@@ -83,6 +83,15 @@ public class classic {
 		p1.move();
 		p2.move();
 		// moves players
+		for (obstacle o : obstacles) {
+			if (o.xToIndex[p1.x + 5] != -1) {
+				p1.y = o.ypoints[o.xToIndex[p1.x + 5]] - 10;
+			}
+			
+			if (o.xToIndex[p2.x + 5] != -1) {
+				p2.y = o.ypoints[o.xToIndex[p2.x + 5]] - 10;
+			}
+		}
 		
 		for (obstacle o : obstacles) {
 			o.move();
@@ -272,15 +281,6 @@ public class classic {
 				if (good) {
 					p2.movePos(50);
 				}
-			}
-		}
-		for (obstacle o : obstacles) {
-			if (o.xToIndex[p1.x + 5] != -1) {
-				p1.y = o.ypoints[o.xToIndex[p1.x + 5]] - 10;
-			}
-			
-			if (o.xToIndex[p2.x + 5] != -1) {
-				p2.y = o.ypoints[o.xToIndex[p2.x + 5]] - 10;
 			}
 		}
 	}
@@ -528,9 +528,9 @@ public class classic {
 	public void changeLoad() {
 		if (p1.cooldownTime == 15000) {
 			p1.regenTime = 10000;
-			p1.cooldownTime = 5000;
+			p1.cooldownTime = 3000;
 			p2.regenTime = 10000;
-			p2.cooldownTime = 5000;
+			p2.cooldownTime = 3000;
 		} else {
 			p1.regenTime = 20000;
 			p1.cooldownTime = 15000;
